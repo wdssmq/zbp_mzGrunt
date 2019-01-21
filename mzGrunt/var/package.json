@@ -2,7 +2,7 @@
   "name": "app_id",
   "version": "app_version",
   "description": "app_note",
-  "author": "author_name",
+  "author": "app_author_name",
   "homepage": "app_url",
   "license": "MIT",
   "keywords": [
@@ -11,12 +11,15 @@
     "Grunt-For-Z-Blog"
   ],
   "path": "zb_path",
-  "less": "less/-less-.less",
-  "sass": "sass/-sass-.sass",
-  "style": "dist/-style-.css",
-  "styleMin": "dist/-style-.min.css",
-  "script": "dist/-script-.js",
-  "scriptMin": "dist/-script-.min.js",
+  "pathCFG": "cfg_path",
+  "appStyle": "app_style",
+  "less": "less/-less-",
+  "sass": "sass/-sass-",
+  "scss": "scss/-scss-",
+  "style": "dist/app_id.css",
+  "styleMin": "dist/app_id.min.css",
+  "script": "dist/script.js",
+  "scriptMin": "dist/script.min.js",
   "repository": {
     "type": "git",
     "url": "https://git.oschina.net/wdssmq/Grunt-For-ZBlog"

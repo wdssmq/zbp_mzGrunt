@@ -13,6 +13,12 @@ function mzGrunt_Path($file, $t = 'path')
     case 'v-json':
       return $result . 'var/package.json';
       break;
+    case 'console':
+      return $result . 'var_cfg/console.txt';
+      break;
+    case 'cfg':
+      return $result . 'var_cfg/';
+      break;
     case 'usr':
       return $result . 'usr/';
       break;

@@ -91,7 +91,7 @@ module.exports = function(grunt) {
     // 语法检查
     csslint: {
       options: {
-        csslintrc: "<%= pkg.path %>/config/.csslintrc"
+        csslintrc: "<%= pkg.pathCFG%>/.csslintrc"
       },
       dist: ["<%= pkg.style %>"]
     },
@@ -125,7 +125,7 @@ module.exports = function(grunt) {
     // JS语法检测
     jshint: {
       options: {
-        jshintrc: "<%= pkg.path %>/config/.jshintrc"
+        jshintrc: "<%= pkg.pathCFG%>/.jshintrc"
       },
       src: {
         src: "js/*.js"
@@ -135,7 +135,7 @@ module.exports = function(grunt) {
     // JS书写格式检测，主要是为了让代码好看
     jscs: {
       options: {
-        config: "<%= pkg.path %>/config/.jscsrc"
+        config: "<%= pkg.pathCFG%>/.jscsrc"
       },
       grunt: {
         options: {
@@ -144,7 +144,7 @@ module.exports = function(grunt) {
         src: "Gruntfile.js"
       },
       src: {
-        src: "<%= jshint.src.src %>"
+        src: "js/*.js"
       }
     },
 
@@ -229,7 +229,13 @@ module.exports = function(grunt) {
   ]);
 
   // JS distribution task.
-  grunt.registerTask("dist-js", ["concat", "uglify", "copy:js"]);
+  grunt.registerTask("dist-js", [
+    "concat",
+    "jshint",
+    "jscs",
+    "uglify",
+    "copy:js"
+  ]);
 
   // Default task.
   grunt.registerTask("dist", ["clean", "dist-css", "dist-js", "watch"]);

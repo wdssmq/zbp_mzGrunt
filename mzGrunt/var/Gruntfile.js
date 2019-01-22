@@ -28,10 +28,19 @@ module.exports = function(grunt) {
 
     // 编译
     less: {
-      compile: {
-        files: {
-          "<%= pkg.style %>": "<%= pkg.less %>"
-        }
+      options: {
+        ieCompat: true,
+        strictMath: true,
+        sourceMap: true,
+        outputSourceFiles: true
+      },
+      core: {
+        options: {
+          sourceMapURL: "<%= pkg.name %>.css.map",
+          sourceMapFilename: "dist/<%= pkg.name %>.css.map"
+        },
+        src: "<%= pkg.less %>",
+        dest: "<%= pkg.style %>"
       }
     },
     sass: {
@@ -45,8 +54,14 @@ module.exports = function(grunt) {
     // 压缩
     cssmin: {
       options: {
-        keepSpecialComments: "*",
-        noAdvanced: true
+        compatibility: "ie8",
+        sourceMap: true,
+        sourceMapInlineSources: false,
+        level: {
+          1: {
+            specialComments: "all"
+          }
+        }
       },
       core: {
         files: {

@@ -4,6 +4,11 @@ RegisterPlugin("mzGrunt", "ActivePlugin_mzGrunt");
 
 function ActivePlugin_mzGrunt()
 {
+  Add_Filter_Plugin('Filter_Plugin_Zbp_BuildTemplate', 'mzGrunt_Copy');
+}
+function mzGrunt_Copy(&$templates)
+{
+  global $zbp;
 }
 function mzGrunt_Path($file, $t = 'path')
 {

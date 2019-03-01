@@ -44,6 +44,9 @@ module.exports = function(grunt) {
       }
     },
     sass: {
+      options: {
+        sourcemap: "inline"
+      },
       dist: {
         files: {
           "<%= pkg.style %>": "<%= pkg.sass %>"
@@ -152,12 +155,12 @@ module.exports = function(grunt) {
       options: {
         config: "<%= pkg.pathCFG%>/.jscsrc"
       },
-      grunt: {
-        options: {
-          requireCamelCaseOrUpperCaseIdentifiers: null
-        },
-        src: "Gruntfile.js"
-      },
+      // grunt: {
+      //   options: {
+      //     requireCamelCaseOrUpperCaseIdentifiers: null
+      //   },
+      //   src: "Gruntfile.js"
+      // },
       src: {
         src: "js/*.js"
       }
@@ -187,7 +190,7 @@ module.exports = function(grunt) {
         expand: true,
         flatten: true,
         cwd: "dist/",
-        src: "*.min.js",
+        src: "*.js",
         dest: "<%= path %>/script/"
       }
     },
@@ -195,7 +198,7 @@ module.exports = function(grunt) {
     watch: {
       // 自动编译
       css: {
-        files: ["less/**/*.less"],
+        files: ["less/**/*.less","sass/**/*.sass"],
         tasks: ["dist-css"]
       },
       js: {
@@ -203,18 +206,18 @@ module.exports = function(grunt) {
         tasks: ["dist-js"]
       },
       // 自动刷新网页
-      client: {
-        files: [
-          "<%= path %>/**/*.css",
-          "<%= path %>/**/*.html",
-          "<%= path %>/**/*.php",
-          "<%= path %>/**/*.asp",
-          "<%= path %>/**/*.js"
-        ],
-        options: {
-          livereload: true
-        }
-      }
+      // client: {
+      //   files: [
+      //     "<%= path %>/**/*.css",
+      //     "<%= path %>/**/*.html",
+      //     "<%= path %>/**/*.php",
+      //     "<%= path %>/**/*.asp",
+      //     "<%= path %>/**/*.js"
+      //   ],
+      //   options: {
+      //     livereload: true
+      //   }
+      // }
     }
   });
 
@@ -246,8 +249,6 @@ module.exports = function(grunt) {
   // JS distribution task.
   grunt.registerTask("dist-js", [
     "concat",
-    "jshint",
-    "jscs",
     "uglify",
     "copy:js"
   ]);

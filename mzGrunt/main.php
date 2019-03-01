@@ -210,9 +210,10 @@ grunt test-css
 
 #—— 检查并提示CSS语法错误，同样有test-js
   </pre></p>
-  <h4>Git和Node.js：</h4>
+  <h4>依赖安装</h4>
   <p>Git - Downloading Package：<a href="https://git-scm.com/download/win" title="Git - Downloading Package" target="_blank">https://git-scm.com/download/win</a></p>
-  <p>Node.js：<a href="https://git-scm.com/download/win" title="Node.js" target="_blank">https://nodejs.org/zh-cn/</a></p>
+  <p>Node.js：<a href="https://nodejs.org/zh-cn/" title="Node.js" target="_blank">https://nodejs.org/zh-cn/</a></p>
+  <p>Ruby：<a href="https://rubyinstaller.org/downloads/" title="Ruby" target="_blank">https://rubyinstaller.org/downloads/</a>（SASS需要,安装Ruby后运行<code>gem install sass</code>）</p>
   <h4>在Git Bash中运行如下命令（只需运行一次）：</h4>
   <p><pre><?php echo strtr($console, $arrLog); ?></pre></p>
   <p><br></p>

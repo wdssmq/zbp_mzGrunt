@@ -1,5 +1,5 @@
 <?php
-#注册插件
+ #注册插件
 RegisterPlugin("mzGrunt", "ActivePlugin_mzGrunt");
 
 function ActivePlugin_mzGrunt()
@@ -9,12 +9,20 @@ function ActivePlugin_mzGrunt()
 function mzGrunt_Copy(&$templates)
 {
   global $zbp;
+  $templates['header'] = str_replace("-time-", time(), $templates['header']);
+  $dir = $GLOBALS['usersdir'] . 'theme/' . $GLOBALS['blogtheme'] . "/compile/";
+  if (is_dir($dir)) {
+    copy(mzGrunt_Path("v-grunt"), "{$dir}Gruntfile.js");
+  }
 }
 function mzGrunt_Path($file, $t = 'path')
 {
   global $zbp;
   $result = $zbp->$t . 'zb_users/plugin/mzGrunt/';
   switch ($file) {
+    case 'v-grunt':
+      return $result . 'var/Gruntfile.js';
+      break;
     case 'v-json':
       return $result . 'var/package.json';
       break;
@@ -38,8 +46,6 @@ function mzGrunt_Path($file, $t = 'path')
   }
 }
 function InstallPlugin_mzGrunt()
-{
-}
+{ }
 function UninstallPlugin_mzGrunt()
-{
-}
+{ }

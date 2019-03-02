@@ -32,6 +32,7 @@
     "grunt-jscs": "*",
     "grunt-banner": "*",
     "grunt-csscomb": "*",
+    "grunt-text-replace": "*",
     "grunt-autoprefixer": "*",
     "grunt-contrib-sass": "*",
     "grunt-contrib-less": "*",

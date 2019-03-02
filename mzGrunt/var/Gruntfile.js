@@ -59,7 +59,7 @@ module.exports = function(grunt) {
       options: {
         compatibility: "ie8",
         sourceMap: true,
-        sourceMapInlineSources: false,
+        sourceMapInlineSources: true,
         level: {
           1: {
             specialComments: "all"
@@ -178,6 +178,19 @@ module.exports = function(grunt) {
       }
     },
 
+    replace: {
+      cssMap: {
+        src: "<%= pkg.styleMin%>.map",
+        dest: "<%= pkg.styleMin%>.map",
+        replacements: [
+          {
+            from: "dist\\\\",
+            to: ""
+          }
+        ]
+      }
+    },
+
     copy: {
       css: {
         expand: true,
@@ -198,13 +211,13 @@ module.exports = function(grunt) {
     watch: {
       // 自动编译
       css: {
-        files: ["less/**/*.less","sass/**/*.sass"],
+        files: ["less/**/*.less", "sass/**/*.sass"],
         tasks: ["dist-css"]
       },
       js: {
         files: ["js/**/*.js"],
         tasks: ["dist-js"]
-      },
+      }
       // 自动刷新网页
       // client: {
       //   files: [
@@ -243,15 +256,12 @@ module.exports = function(grunt) {
     "csscomb",
     "cssmin",
     "usebanner",
+    "replace",
     "copy:css"
   ]);
 
   // JS distribution task.
-  grunt.registerTask("dist-js", [
-    "concat",
-    "uglify",
-    "copy:js"
-  ]);
+  grunt.registerTask("dist-js", ["concat", "uglify", "copy:js"]);
 
   // Default task.
   grunt.registerTask("dist", ["clean", "dist-css", "dist-js", "watch"]);

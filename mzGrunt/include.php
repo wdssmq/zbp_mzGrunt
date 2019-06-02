@@ -1,19 +1,24 @@
 <?php
- #注册插件
+#注册插件
 RegisterPlugin("mzGrunt", "ActivePlugin_mzGrunt");
 
 function ActivePlugin_mzGrunt()
 {
   Add_Filter_Plugin('Filter_Plugin_Zbp_BuildTemplate', 'mzGrunt_Copy');
+  // Add_Filter_Plugin('Filter_Plugin_Zbp_BuildTemplate', 'mzGrunt_Copy');
 }
 function mzGrunt_Copy(&$templates)
 {
   global $zbp;
-  $templates['header'] = str_replace("-time-", time(), $templates['header']);
+  if (!$zbp->option['ZC_DEBUG_MODE']) {
+    return;
+  }
+  $templates['header'] = str_replace('{$style}.css', '{$style}.css?x=' . time(), $templates['header']);
   $dir = $GLOBALS['usersdir'] . 'theme/' . $GLOBALS['blogtheme'] . "/compile/";
   if (is_dir($dir)) {
     copy(mzGrunt_Path("v-grunt"), "{$dir}Gruntfile.js");
   }
+  $templates['footer'] = str_replace('{$footer}', '{$footer}<script src="' . $zbp->host . 'zb_users/plugin/mzGrunt/script/script.js"></script>', $templates['footer']);
 }
 function mzGrunt_Path($file, $t = 'path')
 {

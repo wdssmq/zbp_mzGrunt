@@ -45,7 +45,7 @@ module.exports = function(grunt) {
     },
     sass: {
       options: {
-        sourcemap: "inline"
+        sourcemap: "none",
       },
       dist: {
         files: {
@@ -57,14 +57,13 @@ module.exports = function(grunt) {
     // 压缩
     cssmin: {
       options: {
-        compatibility: "ie8",
-        sourceMap: true,
-        sourceMapInlineSources: true,
-        level: {
-          1: {
-            specialComments: "all"
-          }
-        }
+        sourceMap: false,
+        // sourceMapInlineSources: true,
+        // level: {
+        //   1: {
+        //     specialComments: "all"
+        //   }
+        // }
       },
       core: {
         files: {
@@ -196,7 +195,7 @@ module.exports = function(grunt) {
         expand: true,
         flatten: true,
         cwd: "dist/",
-        src: ["*.css", "*.css.map"],
+        src: ["*.css", "*.min.css.map"],
         dest: "<%= path %>/style/"
       },
       js: {

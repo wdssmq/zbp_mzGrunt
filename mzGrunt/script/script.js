@@ -1,7 +1,6 @@
 (function() {
   let cssRefresh = function(links) {
     this.reloadFile = function(links) {
-      let ve = 0;
       for (let a = 0, l = links.length; a < l; a++) {
         let link = links[a];
         $.get(this.getRandom(link.href), function(data, s, el) {
@@ -20,20 +19,22 @@
             link.last = newTime;
             link.n++;
             if (link.n <= 3) {
+              ve = 0;
               link.elem.setAttribute("href", link.href + "?x=" + Math.random());
             } else {
               location.reload();
             }
           }
-
         });
       }
       if (ve <= 59) {
         ve++;
+        setTimeout(function() {
+          this.reloadFile(links);
+        }, ve * 1000);
+      } else {
+        location.reload();
       }
-      setTimeout(function() {
-        this.reloadFile(links);
-      }, ve * 1000);
     };
 
     this.getRandom = function(f) {
@@ -61,6 +62,7 @@
     }
     return links;
   };
+  let ve = 0;
   let links = getLinks();
   cssRefresh(links);
   // console.log(getLinks());

@@ -4,6 +4,8 @@
   "description": "app_note",
   "author": "app_author_name",
   "homepage": "app_url",
+  "pubdate": "app_pubdate",
+  "modified": "app_modified",
   "license": "MIT",
   "keywords": [
     "z-blog",

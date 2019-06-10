@@ -13,11 +13,11 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
-    path: "<%= pkg.path %>/<%= pkg.name%>",
+    path: "<%= pkg.path %>/<%= pkg.name %>",
     banner:
       "/*!\n" +
       " * <%= pkg.name%> <%= pkg.version %> (<%= pkg.homepage %>)\n" +
-      ' * Copyright 2018-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+      ' * Copyright <%= pkg.pubdate %> [-] <%=  grunt.template.today("yyyy-mm-dd") %> <%= pkg.author %>\n' +
       " * <%= pkg.description %>\n" +
       " */\n",
 

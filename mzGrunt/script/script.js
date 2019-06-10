@@ -1,5 +1,13 @@
 (function() {
-  let cssRefresh = function(links) {
+  let ve = 5;
+  let rlt = 0;
+  $(window).focus(function() {
+    if (rlt > 137593) {
+      cssRefresh(links);
+      // location.reload(true);
+    }
+  });
+  let cssRefresh = function(links, force = false) {
     this.reloadFile = function(links) {
       for (let a = 0, l = links.length; a < l; a++) {
         let link = links[a];
@@ -19,21 +27,26 @@
             link.last = newTime;
             link.n++;
             if (link.n <= 3) {
-              ve = 0;
+              ve = 5;
               link.elem.setAttribute("href", link.href + "?x=" + Math.random());
             } else {
-              location.reload();
+              location.reload(true);
             }
           }
         });
       }
+      if (!force) {
+        return;
+      }
       if (ve <= 59) {
         ve++;
+        rlt += ve * 593;
+        console.log(rlt);
         setTimeout(function() {
           this.reloadFile(links);
-        }, ve * 1000);
+        }, ve * 593);
       } else {
-        location.reload();
+        location.reload(true);
       }
     };
 
@@ -62,8 +75,7 @@
     }
     return links;
   };
-  let ve = 0;
   let links = getLinks();
-  cssRefresh(links);
+  cssRefresh(links, true);
   // console.log(getLinks());
 })();

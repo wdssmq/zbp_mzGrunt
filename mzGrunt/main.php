@@ -30,6 +30,7 @@ $WhiteList = array(
   'id' => null,
   'name' => null,
   'version' => null,
+  'pubdate' => null,
   'modified' => null,
   'url' => null,
   'author_name' => null,
@@ -60,6 +61,9 @@ function mzBuilPath($id)
 {
   $uFile = "";
   $dir = mzGenPath(trim($id), $uFile);
+  if (!is_file($uFile) && is_dir(mzGrunt_Path("usr"))) {
+    FileUtil::copyDir(mzGrunt_Path("usr"), str_replace("compile/", "", $dir), true);
+  }
   if (!is_dir($dir) || (bool)GetVars("over", "POST")) {
     @mkdir($dir, 0755);
     FileUtil::copyDir(mzGrunt_Path("var"), $dir, true);
@@ -101,8 +105,8 @@ require $blogpath . 'zb_system/admin/admin_header.php';
 require $blogpath . 'zb_system/admin/admin_top.php';
 ?>
 <style>
-  .hidden{
-    display:none;
+  .hidden {
+    display: none;
   }
 </style>
 <div id="divMain">
@@ -110,90 +114,91 @@ require $blogpath . 'zb_system/admin/admin_top.php';
   <div class="SubMenu">
   </div>
   <div id="divMain2">
-  <form method="post" action="<?php echo BuildSafeURL("main.php?act=save"); ?>">
-    <input type="hidden" id="zb_path" name="zb_path" value="<?php echo $usersdir . "theme/"; ?>">
-    <input type="hidden" id="cfg_path" name="cfg_path" value="<?php echo mzGrunt_Path("cfg"); ?>">
-    <table width="100%" cellspacing="0" cellpadding="0" class="tableBorder tableBorder-thcenter table_striped table_hover">
-    <tbody>
-      <tr>
-        <th width="15%">&nbsp;</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-      </tr>
-      <tr>
-        <td><b>· 选择主题</b></td>
-        <td>
-          <select name="app_id" id="app_id"><?php echo ($options); ?></select>
-        </td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><b>· CSS预处理入口文件</b></td>
-        <td>
-          <input id="app_style" name="app_style" style="width:450px;" type="text" value="">
-        </td>
-        <td>
-        例如：bulma.sass 对应路径为 <span class="js-id"></span>/compile/sass/bulma.sass<br>
-        例如：bootstrap.less 对应路径为 <span class="js-id"></span>/compile/less/bootstrap.less
-        </td>
-      </tr>
-      <tr>
-        <td colspan="3" style="text-align: center;">
-        以下内容来自主题的theme.xml,如需修改建议点击<a target="_blank" title="编辑主题" href="" class="js-editBTN">[编辑]</a>
-        <p class="js-editURL hidden"><?php echo $bloghost; ?>zb_users/plugin/AppCentre/theme_edit.php?id=<span class="js-id"></span>&token=<?php echo $zbp->GetToken('AppCentre'); ?></p>
-      </td>
-      </tr>
-      <tr>
-        <td><b>· 主题简介</b></td>
-        <td>
-          <input id="app_note" name="app_note" style="width:450px;" type="text" value="">
-        </td>
-      </tr>
-      <tr>
-        <td><b>· 主题发布页面</b></td>
-        <td>
-          <input id="app_url" name="app_url" style="width:450px;" type="text" value="">
-        </td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><b>· 作者</b></td>
-        <td>
-          <input id="app_author_name" name="app_author_name" style="width:450px;" type="text" value="">
-        </td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><b>· 版本</b></td>
-        <td>
-          <input id="app_version" name="app_version" style="width:450px;" type="text" value="">
-        </td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><b>· 日期</b></td>
-        <td>
-          <input id="app_modified" name="app_modified" style="width:450px;" type="text" value="">
-        </td>
-        <td></td>
-      </tr>
-    </tbody>
-    </table>
-    <input type="submit"> <label for="over"><input type="text" class="checkbox" name="over" id="over">覆盖已有文件</label>
-  </form>
-  <?php
-  $console = file_get_contents(mzGrunt_Path("console"));
-  // $console = str_replace("\n", "<br>", $console);
-  $arrLog = array();
-  $arrLog["pAth"] = $usersdir . "theme/";
-  $arrLog["fIle"] = mzGrunt_Path("v-json");
-  ?>
-  <h4>简要：</h4>
-  <p>选择主题并提交会在主题目录下创建一个compile文件夹并放入Grunt所需文件，在命令行下进入该路径即可使用Grunt构建主题的CSS和JS，包括：</p>
-  <p>·LESS、SASS编译生成CSS，CSS属性前缀添加，CSS属性排序……;</p>
-  <p>·JS文件合并，压缩，语法检测……;</p>
-  <h4>预置命令（需要先安装Git，Node，Grunt及相关的依赖）</h4>
-  <p><pre>
+    <form method="post" action="<?php echo BuildSafeURL("main.php?act=save"); ?>">
+      <input type="hidden" id="zb_path" name="zb_path" value="<?php echo $usersdir . "theme/"; ?>">
+      <input type="hidden" id="cfg_path" name="cfg_path" value="<?php echo mzGrunt_Path("cfg"); ?>">
+      <table width="100%" cellspacing="0" cellpadding="0" class="tableBorder tableBorder-thcenter table_striped table_hover">
+        <tbody>
+          <tr>
+            <th width="15%">&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+          </tr>
+          <tr>
+            <td><b>· 选择主题</b></td>
+            <td>
+              <select name="app_id" id="app_id"><?php echo ($options); ?></select>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>· CSS预处理入口文件</b></td>
+            <td>
+              <input id="app_style" name="app_style" style="width:450px;" type="text" value="">
+            </td>
+            <td>
+              例如：bulma.sass 对应路径为 <span class="js-id"></span>/compile/sass/bulma.sass<br>
+              例如：bootstrap.less 对应路径为 <span class="js-id"></span>/compile/less/bootstrap.less
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3" style="text-align: center;">
+              以下内容来自主题的theme.xml,如需修改建议点击<a target="_blank" title="编辑主题" href="" class="js-editBTN">[编辑]</a>
+              <p class="js-editURL hidden"><?php echo $bloghost; ?>zb_users/plugin/AppCentre/theme_edit.php?id=<span class="js-id"></span>&token=<?php echo $zbp->GetToken('AppCentre'); ?></p>
+            </td>
+          </tr>
+          <tr>
+            <td><b>· 主题简介</b></td>
+            <td>
+              <input id="app_note" name="app_note" style="width:450px;" type="text" value="">
+            </td>
+          </tr>
+          <tr>
+            <td><b>· 主题发布页面</b></td>
+            <td>
+              <input id="app_url" name="app_url" style="width:450px;" type="text" value="">
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>· 作者</b></td>
+            <td>
+              <input id="app_author_name" name="app_author_name" style="width:450px;" type="text" value="">
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>· 版本</b></td>
+            <td>
+              <input id="app_version" name="app_version" style="width:450px;" type="text" value="">
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>· 日期</b></td>
+            <td>
+              <input id="app_pubdate" name="app_pubdate" style="width:7em;" type="text" value=""> &gt;&gt; <input id="app_modified" name="app_modified" style="width:7em;" type="text" value="">
+            </td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      <input type="submit"> <label for="over"><input type="text" class="checkbox" name="over" id="over">覆盖已有文件</label>
+    </form>
+    <?php
+    $console = file_get_contents(mzGrunt_Path("console"));
+    // $console = str_replace("\n", "<br>", $console);
+    $arrLog = array();
+    $arrLog["pAth"] = $usersdir . "theme/";
+    $arrLog["fIle"] = mzGrunt_Path("v-json");
+    ?>
+    <h4>简要：</h4>
+    <p>选择主题并提交会在主题目录下创建一个compile文件夹并放入Grunt所需文件，在命令行下进入该路径即可使用Grunt构建主题的CSS和JS，包括：</p>
+    <p>·LESS、SASS编译生成CSS，CSS属性前缀添加，CSS属性排序……;</p>
+    <p>·JS文件合并，压缩，语法检测……;</p>
+    <h4>预置命令（需要先安装Git，Node，Grunt及相关的依赖）</h4>
+    <p>
+      <pre>
 grunt dist-css
 
 #—— 编译并压缩CSS
@@ -209,34 +214,38 @@ grunt dist-css
 grunt test-css
 
 #—— 检查并提示CSS语法错误，同样有test-js
-  </pre></p>
-  <h4>依赖安装</h4>
-  <p>Git - Downloading Package：<a href="https://git-scm.com/download/win" title="Git - Downloading Package" target="_blank">https://git-scm.com/download/win</a></p>
-  <p>Node.js：<a href="https://nodejs.org/zh-cn/" title="Node.js" target="_blank">https://nodejs.org/zh-cn/</a></p>
-  <p>Ruby：<a href="https://rubyinstaller.org/downloads/" title="Ruby" target="_blank">https://rubyinstaller.org/downloads/</a>（SASS需要,安装Ruby后运行<code>gem install sass</code>）</p>
-  <h4>在Git Bash中运行如下命令（只需运行一次）：</h4>
-  <p><pre><?php echo strtr($console, $arrLog); ?></pre></p>
-  <p><br></p>
+  </pre>
+    </p>
+    <h4>依赖安装</h4>
+    <p>Git - Downloading Package：<a href="https://git-scm.com/download/win" title="Git - Downloading Package" target="_blank">https://git-scm.com/download/win</a></p>
+    <p>Node.js：<a href="https://nodejs.org/zh-cn/" title="Node.js" target="_blank">https://nodejs.org/zh-cn/</a></p>
+    <p>Ruby：<a href="https://rubyinstaller.org/downloads/" title="Ruby" target="_blank">https://rubyinstaller.org/downloads/</a>（SASS需要,安装Ruby后运行<code>gem install sass</code>）</p>
+    <h4>在Git Bash中运行如下命令（只需运行一次）：</h4>
+    <p>
+      <pre><?php echo strtr($console, $arrLog); ?></pre>
+    </p>
+    <p><br></p>
   </div><!-- end div#divMain2 -->
 </div>
 
 <script>
   const obj = <?php echo json_encode($arrForJS); ?>;
   console.log(obj);
+
   function fill(id) {
     let app = obj[id];
     for (const key in app) {
       if (app.hasOwnProperty(key)) {
         const el = app[key];
         // console.log(key,el);
-        $("#app_"+key).val(el);
+        $("#app_" + key).val(el);
         // $("#app_"+key).val(el);
       }
     }
     $(".js-id").text(app["id"]);
-    $(".js-editBTN").attr("href",$(".js-editURL").text());
+    $(".js-editBTN").attr("href", $(".js-editURL").text());
   }
-  $("#app_id").change(function () {
+  $("#app_id").change(function() {
     fill($(this).val());
     // console.log($(this).val());
   });

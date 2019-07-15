@@ -2,12 +2,12 @@
   let ve = 5;
   let rlt = 0;
   $(window).focus(function() {
-    if (rlt > 137593) {
-      cssRefresh(links);
-      // location.reload(true);
-    }
+    cssRefresh(links, true);
+    // if (rlt > 137593) {
+    //   location.reload(true);
+    // }
   });
-  let cssRefresh = function(links, force = false) {
+  let cssRefresh = function(links, sp = false) {
     this.reloadFile = function(links) {
       for (let a = 0, l = links.length; a < l; a++) {
         let link = links[a];
@@ -35,13 +35,16 @@
           }
         });
       }
-      if (!force) {
+      // console.log(rlt, ve, "--");
+      if (sp) {
+        console.log(rlt, ve, sp);
+        sp = false;
         return;
       }
       if (ve <= 59) {
         ve++;
         rlt += ve * 593;
-        console.log(rlt);
+        console.log(rlt, ve);
         setTimeout(function() {
           this.reloadFile(links);
         }, ve * 593);
@@ -76,6 +79,6 @@
     return links;
   };
   let links = getLinks();
-  cssRefresh(links, true);
+  cssRefresh(links);
   // console.log(getLinks());
 })();

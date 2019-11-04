@@ -14,10 +14,10 @@ function mzGrunt_Copy(&$templates)
     return;
   }
   $templates['header'] = str_replace('{$style}.css', '{$style}.css?x=' . time(), $templates['header']);
-  $dir = $GLOBALS['usersdir'] . 'theme/' . $GLOBALS['blogtheme'] . "/compile/";
-  if (is_dir($dir)) {
-    copy(mzGrunt_Path("v-grunt"), "{$dir}Gruntfile.js");
-  }
+  // $dir = $GLOBALS['usersdir'] . 'theme/' . $GLOBALS['blogtheme'] . "/compile/";
+  // if (is_dir($dir)) {
+  //   copy(mzGrunt_Path("v-grunt"), "{$dir}Gruntfile.js");
+  // }
   $templates['footer'] = str_replace('{$footer}', '{$footer}<script src="' . $zbp->host . 'zb_users/plugin/mzGrunt/script/script.js"></script>', $templates['footer']);
 }
 function mzGrunt_Path($file, $t = 'path')

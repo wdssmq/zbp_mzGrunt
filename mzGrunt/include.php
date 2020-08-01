@@ -13,6 +13,11 @@ function mzGrunt_Copy(&$templates)
   if (!$zbp->option['ZC_DEBUG_MODE']) {
     return;
   }
+  $uFile = mzGrunt_Path("zblogphp.js");
+  $vFile = mzGrunt_Path("zblogphp.orig.js");
+  if (is_file($vFile)) {
+    copy($vFile, $uFile);
+  }
   $templates['header'] = str_replace('{$style}.css', '{$style}.css?x=' . time(), $templates['header']);
   // $dir = $GLOBALS['usersdir'] . 'theme/' . $GLOBALS['blogtheme'] . "/compile/";
   // if (is_dir($dir)) {
@@ -37,6 +42,12 @@ function mzGrunt_Path($file, $t = 'path')
     case 'cfg':
       return $result . 'var_cfg/';
       break;
+    case 'zblogphp.js':
+      return "{$zbp->path}zb_system/script/zblogphp.js";
+      break;
+    case 'zblogphp.orig.js':
+      return "{$zbp->path}zb_system/script/zblogphp.orig.js";
+      break;
     case 'usr':
       return $result . 'usr/';
       break;
@@ -51,6 +62,8 @@ function mzGrunt_Path($file, $t = 'path')
   }
 }
 function InstallPlugin_mzGrunt()
-{ }
+{
+}
 function UninstallPlugin_mzGrunt()
-{ }
+{
+}

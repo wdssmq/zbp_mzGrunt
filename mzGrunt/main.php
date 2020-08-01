@@ -46,46 +46,61 @@ foreach ($allthemes as $theme) {
   } else {
     $selected = "";
   }
-  $uFile = "";
-  $dir = mzGenPath(trim($theme->id), $uFile);
-  if (is_dir($dir)) {
+  $gruntPath = "";
+  $pgkFile = "";
+  $AppDir = mzGenPath($theme->id, $gruntPath, $pgkFile);
+  if (is_dir($gruntPath)) {
     $theme->name .= $arrAid[1];
   }
-  if (is_file($uFile)) {
-    $uJson = json_decode(file_get_contents($uFile));
+  if (is_file($pgkFile)) {
+    $uJson = json_decode(file_get_contents($pgkFile));
     $arrForJS[$theme->id]["style"] = $uJson->appStyle;
   }
   $options .= mzGenOption($theme->id, $theme->name, $selected);
 }
 function mzBuilPath($id)
 {
-  $uFile = "";
-  $dir = mzGenPath(trim($id), $uFile);
-  if (!is_file($uFile) && is_dir(mzGrunt_Path("usr"))) {
-    FileUtil::copyDir(mzGrunt_Path("usr"), str_replace("compile/", "", $dir), true);
+  $over = (bool)GetVars("over", "POST");
+  $gruntPath = "";
+  $pgkFile = "";
+  $AppDir = mzGenPath(trim($id), $gruntPath, $pgkFile);
+
+  if (!is_dir($gruntPath) || $over) {
+    @mkdir($gruntPath, 0755);
+    FileUtil::copyDir(mzGrunt_Path("var"), $gruntPath, true);
+    if (is_dir(mzGrunt_Path("usr"))) {
+      FileUtil::copyDir(mzGrunt_Path("usr"), $AppDir, true);
+    }
   }
-  if (!is_dir($dir) || (bool)GetVars("over", "POST")) {
-    @mkdir($dir, 0755);
-    FileUtil::copyDir(mzGrunt_Path("var"), $dir, true);
+
+  // 自动生存工作区文件
+  $sFile = "{$AppDir}app.code-workspace";
+  $dFile = "{$AppDir}{$id}.code-workspace";
+  if (is_file($sFile) && (!is_file($dFile) || !is_dir($gruntPath) || $over)) {
+    FileUtil::unlinkFile($dFile);
+    FileUtil::moveFile($sFile, $dFile);
   }
+
+  // package.json内容生成
   $vJson = file_get_contents(mzGrunt_Path("v-json"));
   $uJson = strtr($vJson, $_POST);
   if ($uCSS = GetVars("app_style", "POST")) {
     $arrCSS = explode(".", $uCSS);
     $ex = array_pop($arrCSS);
-    $dirAG = "{$dir}{$ex}";
+    $dirAG = "{$gruntPath}{$ex}";
     if (!is_dir($dirAG)) {
       @mkdir($dirAG, 0755);
       #code
     }
   }
   $uJson = str_replace("-$ex-", $uCSS, $uJson);
-  file_put_contents($uFile, $uJson);
+  file_put_contents($pgkFile, $uJson);
 }
-function mzGenPath($id, &$file = "")
+function mzGenPath($id, &$gruntPath = "", &$pgkFile = "")
 {
-  $dir = $GLOBALS['usersdir'] . 'theme/' . $id . "/compile/";
-  $file = "{$dir}package.json";
+  $dir = "{$GLOBALS['usersdir']}theme/{$id}/";
+  $gruntPath = $dir . "compile/";
+  $pgkFile = "{$gruntPath}package.json";
   return $dir;
 }
 function mzGenOption($v, $t = null, $s = "")

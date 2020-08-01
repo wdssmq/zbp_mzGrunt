@@ -1,0 +1,25 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "../../../zb_system"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      ".*": false,
+      "cache": true,
+      "script/.*": true,
+      "script/*.min.js": true,
+      "style/.*": true,
+      "style/*.min.css": true,
+      "style/*.map": true,
+      "compile/.*": true,
+      "compile/*.*": true,
+      "**/.sass-cache": true,
+      "**/node_modules": true
+    }
+  }
+}

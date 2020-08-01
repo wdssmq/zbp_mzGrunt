@@ -22,10 +22,6 @@
   "styleMin": "dist/app_id.min.css",
   "script": "dist/script.js",
   "scriptMin": "dist/script.min.js",
-  "repository": {
-    "type": "git",
-    "url": "https://git.oschina.net/wdssmq/Grunt-For-ZBlog"
-  },
   "devDependencies": {
     "grunt": "*",
     "time-grunt": "*",

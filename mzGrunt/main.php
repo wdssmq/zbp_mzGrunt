@@ -76,7 +76,7 @@ function mzBuilPath($id)
   // 自动生存工作区文件
   $sFile = "{$AppDir}app.code-workspace";
   $dFile = "{$AppDir}{$id}.code-workspace";
-  if (is_file($sFile) && (!is_file($dFile) || !is_dir($gruntPath) || $over)) {
+  if (is_file($sFile) && (!is_file($dFile) || $over)) {
     FileUtil::unlinkFile($dFile);
     FileUtil::moveFile($sFile, $dFile);
   }

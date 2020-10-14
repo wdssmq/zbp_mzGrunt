@@ -1,5 +1,5 @@
 (function () {
-  const vve = 17;
+  const vve = 37;
   let ve = vve;
   $(window).focus(function () {
     cssRefresh(links, true);
@@ -49,7 +49,7 @@
       }
       if (ve <= 59) {
         ve++;
-        let delay = ve * 593 + 137;
+        let delay = ve * 1000 + 137;
         console.log(delay);
         setTimeout(function () {
           this.reloadFile(links);

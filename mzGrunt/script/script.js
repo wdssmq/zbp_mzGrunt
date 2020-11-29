@@ -9,14 +9,14 @@
    * @param array links 样式链接列表
    * @param bool  sp 强制刷新一次但不设置定时
    */
-  let cssRefresh = function (links, sp = false) {
+  const cssRefresh = function (links, sp = false) {
     this.reloadFile = function (links) {
       for (let a = 0, l = links.length; a < l; a++) {
-        let link = links[a];
+        const link = links[a];
         $.get(this.getRandom(link.href), function (data, s, el) {
           // console.log(s,el);
           // console.log(el.getResponseHeader("Last-Modified"));
-          let newTime = el.getResponseHeader("Last-Modified");
+          const newTime = el.getResponseHeader("Last-Modified");
           // 初始化时间
           if (link.last === false) {
             link.last = newTime;
@@ -35,7 +35,7 @@
             link.n++;
             if (link.n <= 7) {
               ve = vve;
-              link.elem.setAttribute("href", link.href + "?x=" + Math.random());
+              link.elem.setAttribute("href", cssRefresh.getRandom(link.href));
             } else {
               location.reload(true);
             }
@@ -66,11 +66,11 @@
     this.reloadFile(links);
   };
   // 遍历取得所有外部样式链接
-  let getLinks = function () {
-    let files = document.getElementsByTagName("link"),
+  const getLinks = function () {
+    const files = document.getElementsByTagName("link"),
       links = [];
     for (let a = 0, l = files.length; a < l; a++) {
-      let elem = files[a],
+      const elem = files[a],
         rel = elem.rel;
       if (typeof rel != "string" || rel.length == 0 || rel == "stylesheet") {
         links.push({
@@ -83,7 +83,7 @@
     }
     return links;
   };
-  let links = getLinks();
+  const links = getLinks();
   cssRefresh(links);
   // console.log(getLinks());
 })();

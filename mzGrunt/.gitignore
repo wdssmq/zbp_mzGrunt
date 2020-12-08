@@ -1,2 +1,4 @@
 *.code-workspace
+usr
 !usr_cfg/app.code-workspace
+!usr_cfg/.vscode

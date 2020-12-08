@@ -8,6 +8,9 @@
     }
   ],
   "settings": {
+    "intelephense.environment.includePaths": [
+      "../../../zb_system"
+    ],
     "files.exclude": {
       ".*": false,
       "cache": true,

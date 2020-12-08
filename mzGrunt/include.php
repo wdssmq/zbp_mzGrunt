@@ -4,8 +4,13 @@ RegisterPlugin("mzGrunt", "ActivePlugin_mzGrunt");
 
 function ActivePlugin_mzGrunt()
 {
+  Add_Filter_Plugin('Filter_Plugin_Zbp_Load', 'mzGrunt_BuildTemplate');
   Add_Filter_Plugin('Filter_Plugin_Zbp_BuildTemplate', 'mzGrunt_Copy');
-  // Add_Filter_Plugin('Filter_Plugin_Zbp_BuildTemplate', 'mzGrunt_Copy');
+}
+function mzGrunt_BuildTemplate()
+{
+  global $zbp;
+  $zbp->BuildTemplate();
 }
 function mzGrunt_Copy(&$templates)
 {
@@ -19,11 +24,23 @@ function mzGrunt_Copy(&$templates)
     copy($vFile, $uFile);
   }
   $templates['header'] = str_replace('{$style}.css', '{$style}.css?x=' . time(), $templates['header']);
-  // $dir = $GLOBALS['usersdir'] . 'theme/' . $GLOBALS['blogtheme'] . "/compile/";
-  // if (is_dir($dir)) {
-  //   copy(mzGrunt_Path("v-grunt"), "{$dir}Gruntfile.js");
-  // }
-  $templates['footer'] = str_replace('{$footer}', '{$footer}<script src="' . $zbp->host . 'zb_users/plugin/mzGrunt/script/script.js"></script>', $templates['footer']);
+
+  // $codeFile = "{$curThemePath}{$curTheme}.code-workspace";
+  if ($zbp->config('mzGrunt')->reloadType == "2") {
+    $templates['footer'] .= <<<script
+    <script>
+    console.log($(window).width());
+    document.write(
+      '<script src="http://' +
+        (location.host).split(':')[0] +
+        ':35729/livereload.js?snipver=1"></' +
+        'script>'
+    );
+  </script>
+script;
+  } else {
+    $templates['footer'] = str_replace('{$footer}', '{$footer}' . "\n" . '<script src="' . $zbp->host . 'zb_users/plugin/mzGrunt/script/script.js"></script>', $templates['footer']);
+  }
 }
 function mzGrunt_Path($file, $t = 'path')
 {

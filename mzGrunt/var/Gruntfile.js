@@ -3,12 +3,12 @@
  * Copyright 2013-2015 沉冰浮水
  */
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   require("load-grunt-parent-tasks")(grunt, {
     config: "package.json",
     pattern: "grunt-*",
     scope: "dependencies",
-    module: "grunt-collection"
+    module: "grunt-collection",
   });
 
   grunt.initConfig({
@@ -23,7 +23,7 @@ module.exports = function(grunt) {
 
     // Task configuration.
     clean: {
-      dist: ["dist"]
+      dist: ["dist"],
     },
 
     // 编译
@@ -32,16 +32,16 @@ module.exports = function(grunt) {
         ieCompat: true,
         strictMath: true,
         sourceMap: true,
-        outputSourceFiles: true
+        outputSourceFiles: true,
       },
       core: {
         options: {
           sourceMapURL: "<%= pkg.name %>.css.map",
-          sourceMapFilename: "dist/<%= pkg.name %>.css.map"
+          sourceMapFilename: "dist/<%= pkg.name %>.css.map",
         },
         src: "<%= pkg.less %>",
-        dest: "<%= pkg.style %>"
-      }
+        dest: "<%= pkg.style %>",
+      },
     },
     sass: {
       options: {
@@ -49,9 +49,9 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          "<%= pkg.style %>": "<%= pkg.sass %>"
-        }
-      }
+          "<%= pkg.style %>": "<%= pkg.sass %>",
+        },
+      },
     },
 
     // 压缩
@@ -67,9 +67,9 @@ module.exports = function(grunt) {
       },
       core: {
         files: {
-          "<%= pkg.styleMin %>": "<%= pkg.style %>"
-        }
-      }
+          "<%= pkg.styleMin %>": "<%= pkg.style %>",
+        },
+      },
     },
 
     // 代码完善
@@ -82,35 +82,35 @@ module.exports = function(grunt) {
           "Explorer >= 9",
           "iOS >= 6",
           "Opera >= 16",
-          "Safari >= 6"
-        ]
+          "Safari >= 6",
+        ],
       },
       core: {
         options: {
-          map: false
+          map: false,
         },
-        src: "<%= pkg.style %>"
-      }
+        src: "<%= pkg.style %>",
+      },
     },
 
     // 属性排序
     csscomb: {
       options: {
-        config: "<%= pkg.path %>/config/.csscomb.json"
+        config: "<%= pkg.path %>/config/.csscomb.json",
       },
       dist: {
         files: {
-          "<%= pkg.style %>": "<%= pkg.style %>"
-        }
-      }
+          "<%= pkg.style %>": "<%= pkg.style %>",
+        },
+      },
     },
 
     // 语法检查
     csslint: {
       options: {
-        csslintrc: "<%= pkg.pathCFG%>/.csslintrc"
+        csslintrc: "<%= pkg.pathCFG%>/.csslintrc",
       },
-      dist: ["<%= pkg.style %>"]
+      dist: ["<%= pkg.style %>"],
     },
 
     // 拼接JS
@@ -118,41 +118,41 @@ module.exports = function(grunt) {
       options: {
         // banner: '<%= banner %>',
         stripBanners: false,
-        separator: ";"
+        separator: ";",
       },
       dist: {
         src: ["js/**/*.js"],
-        dest: "<%= pkg.script %>"
-      }
+        dest: "<%= pkg.script %>",
+      },
     },
 
     // JS压缩
     uglify: {
       options: {
         banner: "<%= banner %>",
-        ASCIIOnly: true
+        ASCIIOnly: true,
       },
       dist: {
         files: {
-          "<%= pkg.scriptMin %>": ["<%= pkg.script %>"]
-        }
-      }
+          "<%= pkg.scriptMin %>": ["<%= pkg.script %>"],
+        },
+      },
     },
 
     // JS语法检测
     jshint: {
       options: {
-        jshintrc: "<%= pkg.pathCFG%>/.jshintrc"
+        jshintrc: "<%= pkg.pathCFG%>/.jshintrc",
       },
       src: {
-        src: "js/*.js"
-      }
+        src: "js/*.js",
+      },
     },
 
     // JS书写格式检测，主要是为了让代码好看
     jscs: {
       options: {
-        config: "<%= pkg.pathCFG%>/.jscsrc"
+        config: "<%= pkg.pathCFG%>/.jscsrc",
       },
       // grunt: {
       //   options: {
@@ -161,20 +161,20 @@ module.exports = function(grunt) {
       //   src: "Gruntfile.js"
       // },
       src: {
-        src: "js/*.js"
-      }
+        src: "js/*.js",
+      },
     },
 
     usebanner: {
       dist: {
         options: {
           position: "top",
-          banner: "<%= banner %>"
+          banner: "<%= banner %>",
         },
         files: {
-          src: ["dist/*.css"]
-        }
-      }
+          src: ["dist/*.css"],
+        },
+      },
     },
 
     replace: {
@@ -184,10 +184,10 @@ module.exports = function(grunt) {
         replacements: [
           {
             from: "dist\\\\",
-            to: ""
-          }
-        ]
-      }
+            to: "",
+          },
+        ],
+      },
     },
 
     copy: {
@@ -196,41 +196,42 @@ module.exports = function(grunt) {
         flatten: true,
         cwd: "dist/",
         src: ["*.css", "*.min.css.map"],
-        dest: "<%= path %>/style/"
+        dest: "<%= path %>/style/",
       },
       js: {
         expand: true,
         flatten: true,
         cwd: "dist/",
         src: "*.js",
-        dest: "<%= path %>/script/"
-      }
+        dest: "<%= path %>/script/",
+      },
     },
 
     watch: {
       // 自动编译
       css: {
         files: ["less/**/*.less", "sass/**/*.sass"],
-        tasks: ["dist-css"]
+        tasks: ["dist-css"],
       },
       js: {
         files: ["js/**/*.js"],
-        tasks: ["dist-js"]
-      }
+        tasks: ["dist-js"],
+      },
       // 自动刷新网页
-      // client: {
-      //   files: [
-      //     "<%= path %>/**/*.css",
-      //     "<%= path %>/**/*.html",
-      //     "<%= path %>/**/*.php",
-      //     "<%= path %>/**/*.asp",
-      //     "<%= path %>/**/*.js"
-      //   ],
-      //   options: {
-      //     livereload: true
-      //   }
-      // }
-    }
+      client: {
+        files: [
+          "<%= path %>/**/*.css",
+          "<%= path %>/**/*.js",
+          "<%= path %>/**/*.html",
+          "<%= path %>/**/*.php",
+          "<%= path %>/**/*.asp",
+          "<%= path %>/**/*.json",
+        ],
+        options: {
+          livereload: true,
+        },
+      },
+    },
   });
 
   // require("load-grunt-tasks")(grunt, { scope: "devDependencies" });
@@ -256,7 +257,7 @@ module.exports = function(grunt) {
     "cssmin",
     "usebanner",
     "replace",
-    "copy:css"
+    "copy:css",
   ]);
 
   // JS distribution task.

@@ -1,4 +1,5 @@
 (function () {
+  console.log($(window).width());
   const vve = 37;
   let ve = vve;
   $(window).focus(function () {
@@ -11,9 +12,10 @@
    */
   const cssRefresh = function (links, sp = false) {
     this.reloadFile = function (links) {
+      const fnRndUrl = this.getRandom;
       for (let a = 0, l = links.length; a < l; a++) {
         const link = links[a];
-        $.get(this.getRandom(link.href), function (data, s, el) {
+        $.get(fnRndUrl(link.href), function (data, s, el) {
           // console.log(s,el);
           // console.log(el.getResponseHeader("Last-Modified"));
           const newTime = el.getResponseHeader("Last-Modified");
@@ -35,7 +37,7 @@
             link.n++;
             if (link.n <= 7) {
               ve = vve;
-              link.elem.setAttribute("href", cssRefresh.getRandom(link.href));
+              link.elem.setAttribute("href", fnRndUrl(link.href));
             } else {
               location.reload(true);
             }

@@ -16,6 +16,8 @@ if (!$zbp->CheckPlugin('mzGrunt')) {
 $act = GetVars('act', 'GET');
 $suc = GetVars('suc', 'GET');
 if (GetVars('act', 'GET') == 'save') {
+  $zbp->config('mzGrunt')->reloadType = GetVars("reloadType", "POST");
+  $zbp->config('mzGrunt')->Save();
   CheckIsRefererValid();
   mzBuilPath(GetVars("app_id", "POST"));
   $zbp->BuildTemplate();
@@ -60,6 +62,7 @@ foreach ($allthemes as $theme) {
 }
 function mzBuilPath($id)
 {
+  global $zbp, $blogtheme;
   $over = (bool)GetVars("over", "POST");
   $gruntPath = "";
   $pgkFile = "";
@@ -71,14 +74,24 @@ function mzBuilPath($id)
     if (is_dir(mzGrunt_Path("usr"))) {
       FileUtil::copyDir(mzGrunt_Path("usr"), $AppDir, true);
     }
+    // fix style.css 2 themeName.css
+    $sFile = "{$AppDir}style/style.css";
+    $dFile = "{$AppDir}style/{$id}.css";
+    if (is_file($sFile) && !is_file($dFile)) {
+      FileUtil::moveFile($sFile, $dFile);
+    }
+    if ($zbp->option['ZC_BLOG_CSS'] == "style" && $blogtheme == $id) {
+      SetTheme($id, $id);
+    }
   }
 
   // 自动生存工作区文件
   $sFile = "{$AppDir}app.code-workspace";
   $dFile = "{$AppDir}{$id}.code-workspace";
-  if (is_file($sFile) && (!is_file($dFile) || $over)) {
-    FileUtil::unlinkFile($dFile);
+  if (is_file($sFile) && !is_file($dFile)) {
     FileUtil::moveFile($sFile, $dFile);
+  } elseif (is_file($sFile)) {
+    FileUtil::unlinkFile($sFile);
   }
 
   // package.json内容生成
@@ -195,6 +208,14 @@ require $blogpath . 'zb_system/admin/admin_top.php';
               <input id="app_pubdate" name="app_pubdate" style="width:7em;" type="text" value=""> &gt;&gt; <input id="app_modified" name="app_modified" style="width:7em;" type="text" value="">
             </td>
             <td></td>
+          </tr>
+          <td colspan="3" style="text-align: center;">
+            通用选项
+          </td>
+          <tr>
+            <td><b>· livereload</b></td>
+            <td><?php echo zbpform::select('reloadType', array('1' => '网页内定时查询（仅针对CSS）', '2' => '编辑器/构建工具通知更新'), $zbp->config("mzGrunt")->reloadType); ?></td>
+            <td>推送调用端口+文件名 :35729/livereload.js</td>
           </tr>
         </tbody>
       </table>

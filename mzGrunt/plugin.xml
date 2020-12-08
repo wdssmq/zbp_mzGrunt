@@ -21,7 +21,7 @@
 <adapted>151935</adapted>
 <version>1.0</version>
 <pubdate>2019-01-08</pubdate>
-<modified>2019-06-21</modified>
+<modified>2020-12-02</modified>
 <price>0</price>
 <phpver>5.4</phpver>
 <advanced>
@@ -36,5 +36,9 @@
   <sidebar3></sidebar3>
   <sidebar4></sidebar4>
   <sidebar5></sidebar5>
+  <sidebar6></sidebar6>
+  <sidebar7></sidebar7>
+  <sidebar8></sidebar8>
+  <sidebar9></sidebar9>
 </sidebars>
 </plugin>

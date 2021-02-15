@@ -10,7 +10,9 @@ function ActivePlugin_mzGrunt()
 function mzGrunt_BuildTemplate()
 {
   global $zbp;
-  $zbp->BuildTemplate();
+  if ($zbp->option['ZC_DEBUG_MODE']) {
+    $zbp->BuildTemplate();
+  }
 }
 function mzGrunt_Copy(&$templates)
 {

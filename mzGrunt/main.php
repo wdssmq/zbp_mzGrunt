@@ -12,7 +12,7 @@ if (!$zbp->CheckPlugin('mzGrunt')) {
   $zbp->ShowError(48);
   die();
 }
-
+// 生成处理
 $act = GetVars('act', 'GET');
 $suc = GetVars('suc', 'GET');
 if (GetVars('act', 'GET') == 'save') {
@@ -127,7 +127,8 @@ function mzGenOption($v, $t = null, $s = "")
   $arr = array('-t-' => $t, '-v-' => $v, "data-selected" => $s);
   return strtr("<option value=\"-v-\" data-selected>-t-</option>", $arr);
 }
-
+// 强制检查 LiveReload
+mzGrunt_CheckLiveReload(true);
 $blogtitle = 'Grunt';
 require $blogpath . 'zb_system/admin/admin_header.php';
 require $blogpath . 'zb_system/admin/admin_top.php';
@@ -140,6 +141,8 @@ require $blogpath . 'zb_system/admin/admin_top.php';
 <div id="divMain">
   <div class="divHeader"><?php echo $blogtitle; ?></div>
   <div class="SubMenu">
+    <a href="main.php" title="首页"><span class="m-left m-now">首页</span></a>
+    <?php require "about.php"; ?>
   </div>
   <div id="divMain2">
     <form method="post" action="<?php echo BuildSafeURL("main.php?act=save"); ?>">
@@ -214,7 +217,7 @@ require $blogpath . 'zb_system/admin/admin_top.php';
           </td>
           <tr>
             <td><b>· livereload</b></td>
-            <td><?php echo zbpform::select('reloadType', array('1' => '网页内定时查询（仅针对CSS）', '2' => '编辑器/构建工具通知更新'), $zbp->config("mzGrunt")->reloadType); ?></td>
+            <td><?php echo zbpform::select('reloadType', array('1' => '网页内定时查询（仅针对CSS）', '2' => '编辑器/构建工具通知更新', '3' => '自动检测'), $zbp->config("mzGrunt")->reloadType); ?></td>
             <td>推送调用端口+文件名 :35729/livereload.js</td>
           </tr>
         </tbody>
@@ -234,7 +237,7 @@ require $blogpath . 'zb_system/admin/admin_top.php';
     <p>·JS文件合并，压缩，语法检测……;</p>
     <h4>预置命令（需要先安装Git，Node，Grunt及相关的依赖）</h4>
     <p>
-      <pre>
+    <pre>
 grunt dist-css
 
 #—— 编译并压缩CSS
@@ -258,7 +261,7 @@ grunt test-css
     <p>Ruby：<a href="https://rubyinstaller.org/downloads/" title="Ruby" target="_blank">https://rubyinstaller.org/downloads/</a>（SASS需要,安装Ruby后运行<code>gem install sass</code>）</p>
     <h4>在Git Bash中运行如下命令（只需运行一次）：</h4>
     <p>
-      <pre><?php echo strtr($console, $arrLog); ?></pre>
+    <pre><?php echo strtr($console, $arrLog); ?></pre>
     </p>
     <p><br></p>
   </div><!-- end div#divMain2 -->

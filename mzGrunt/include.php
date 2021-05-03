@@ -6,7 +6,7 @@ function ActivePlugin_mzGrunt()
 {
   Add_Filter_Plugin('Filter_Plugin_Zbp_Load', 'mzGrunt_BuildTemplate');
   Add_Filter_Plugin('Filter_Plugin_Zbp_BuildTemplate', 'mzGrunt_GenTpl');
-  Add_Filter_Plugin('Filter_Plugin_Admin_Footer', 'mzGrunt_AdminFooter');
+  // Add_Filter_Plugin('Filter_Plugin_Admin_Footer', 'mzGrunt_AdminFooter');
 }
 function mzGrunt_AdminFooter()
 {
@@ -20,7 +20,7 @@ function mzGrunt_BuildTemplate()
 {
   global $zbp;
   if ($zbp->option['ZC_DEBUG_MODE']) {
-    $zbp->BuildTemplate();
+    // $zbp->BuildTemplate();
   }
 }
 function mzGrunt_GenTpl(&$templates)
@@ -48,13 +48,13 @@ function mzGrunt_ReloadJS()
       $script .= '<script src="' . mzGrunt_Path("script/livereload.js", "host") . '"></script>';
       break;
     case '2':
-      $script .= '<script src="http://127.0.0.1:35728/livereload.js?snipver=1"></script>';
+      $script .= '<script src="http://127.0.0.1:35729/livereload.js?snipver=1"></script>';
       break;
     default:
       $script .= '<script src="' . mzGrunt_CheckLiveReload() . '"></script>';;
       break;
   }
-  return $script . "\n<!--↑livereload↑-->\n";
+  return $script . "\n<!--↑livereload {$reloadType}↑-->\n";
 }
 function mzGrunt_CheckLiveReload($force = false)
 {
@@ -65,22 +65,30 @@ function mzGrunt_CheckLiveReload($force = false)
   if ($curTime == $lstTime && !$force) {
     return $liveReload;
   }
-  $urlList = array("http://127.0.0.1:3000/browser-sync/browser-sync-client.js?v=2.18.11", "http://127.0.0.1:35728/livereload.js?snipver=1");
-  $rlt = "";
+  $liveReload = mzGrunt_Path("script/livereload.js", "host");
+  $urlList = array("http://127.0.0.1:3000/browser-sync/browser-sync-client.js?v=2.18.11", "http://127.0.0.1:35729/livereload.js?snipver=1");
   foreach ($urlList as $url) {
-    $rlt = file_get_contents($url);
-    if (!empty($rlt)) {
+    if (mzGrunt_Network($url)) {
       $liveReload = $url;
       break;
     }
   }
-  if (empty($rlt)) {
-    $liveReload = mzGrunt_Path("script/livereload.js", "host");
-  }
   $zbp->Config('mzGrunt')->liveReload = $liveReload;
   $zbp->Config('mzGrunt')->lstTime = $curTime;
   $zbp->SaveConfig('mzGrunt');
+  $zbp->BuildTemplate();
   return $liveReload;
+}
+function mzGrunt_Network($url)
+{
+  $http = Network::Create();
+  $http->open('GET', $url);
+  // $http->setTimeOuts(10, 10, 0, 0);
+  $http->send();
+  if ($http->status == 200) {
+    return true;
+  }
+  return false;
 }
 function mzGrunt_Path($file, $t = 'path')
 {

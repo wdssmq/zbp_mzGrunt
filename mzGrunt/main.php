@@ -129,6 +129,14 @@ function mzGenOption($v, $t = null, $s = "")
 }
 // 强制检查 LiveReload
 mzGrunt_CheckLiveReload(true);
+$reloadType = $zbp->Config('mzGrunt')->reloadType;
+if ("3" == $reloadType) {
+  $liveReload = $zbp->Config('mzGrunt')->liveReload;
+  $liveReload = str_replace("http://127.0.0.1:", "", $liveReload);
+  $liveReload = "当前：{$liveReload}";
+} else {
+  $liveReload = "";
+}
 $blogtitle = 'Grunt';
 require $blogpath . 'zb_system/admin/admin_header.php';
 require $blogpath . 'zb_system/admin/admin_top.php';
@@ -217,7 +225,7 @@ require $blogpath . 'zb_system/admin/admin_top.php';
           </td>
           <tr>
             <td><b>· livereload</b></td>
-            <td><?php echo zbpform::select('reloadType', array('1' => '网页内定时查询（仅针对CSS）', '2' => '编辑器/构建工具通知更新', '3' => '自动检测'), $zbp->config("mzGrunt")->reloadType); ?></td>
+            <td><?php echo zbpform::select('reloadType', array('1' => '网页内定时查询（仅针对CSS）', '2' => '编辑器/构建工具通知更新', '3' => '自动检测'), $zbp->config("mzGrunt")->reloadType); ?><?php echo $liveReload; ?></td>
             <td>推送调用端口+文件名 :35729/livereload.js</td>
           </tr>
         </tbody>

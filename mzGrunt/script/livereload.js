@@ -35,7 +35,7 @@
             console.log(link.last, newTime);
             link.last = newTime;
             link.n++;
-            if (link.n <= 7) {
+            if (link.n <= 17) {
               ve = vve;
               link.elem.setAttribute("href", fnRndUrl(link.href));
             } else {

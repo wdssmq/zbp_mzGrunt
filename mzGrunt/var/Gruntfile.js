@@ -13,10 +13,10 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
-    path: "<%= pkg.path %>/<%= pkg.name %>",
+    path: "<%= pkg.path %>/<%= pkg.id %>",
     banner:
       "/*!\n" +
-      " * <%= pkg.name%> <%= pkg.version %> (<%= pkg.homepage %>)\n" +
+      " * <%= pkg.id%> <%= pkg.version %> (<%= pkg.homepage %>)\n" +
       ' * Copyright <%= pkg.pubdate %> [-] <%=  grunt.template.today("yyyy-mm-dd") %> <%= pkg.author %>\n' +
       " * <%= pkg.description %>\n" +
       " */\n",
@@ -36,18 +36,19 @@ module.exports = function (grunt) {
       },
       core: {
         options: {
-          sourceMapURL: "<%= pkg.name %>.css.map",
-          sourceMapFilename: "dist/<%= pkg.name %>.css.map",
+          sourceMapURL: "<%= pkg.id %>.css.map",
+          sourceMapFilename: "dist/<%= pkg.id %>.css.map",
         },
         src: "<%= pkg.less %>",
         dest: "<%= pkg.style %>",
       },
     },
-    sass: {
-      options: {
-        sourcemap: "none",
-      },
-      dist: {
+    "dart-sass": {
+      target: {
+        // options: {
+        //   sourceMap: true,
+        //   outFile: "<%= pkg.style %>",
+        // },
         files: {
           "<%= pkg.style %>": "<%= pkg.sass %>",
         },
@@ -96,7 +97,7 @@ module.exports = function (grunt) {
     // 属性排序
     csscomb: {
       options: {
-        config: "<%= pkg.path %>/config/.csscomb.json",
+        config: "<%= pkg.pathCFG %>/.csscomb.json",
       },
       dist: {
         files: {
@@ -246,14 +247,14 @@ module.exports = function (grunt) {
   // CSS distribution task.
   let pkg = grunt.file.readJSON("package.json");
   let cssType = "less";
-  console.log(pkg.sass);
+  // console.log(pkg.sass);
   if (grunt.file.exists(pkg.sass)) {
-    cssType = "sass";
+    cssType = "dart-sass";
   }
   grunt.registerTask("dist-css", [
     cssType,
-    "autoprefixer",
-    "csscomb",
+    // "autoprefixer",
+    // "csscomb",
     "cssmin",
     "usebanner",
     "replace",

@@ -12,6 +12,7 @@
     "Grunt",
     "Grunt-For-Z-Blog"
   ],
+  "id": "app_id",
   "path": "zb_path",
   "pathCFG": "cfg_path",
   "appStyle": "app_style",
@@ -32,7 +33,6 @@
     "grunt-csscomb": "*",
     "grunt-text-replace": "*",
     "grunt-autoprefixer": "*",
-    "grunt-contrib-sass": "*",
     "grunt-contrib-less": "*",
     "grunt-contrib-copy": "*",
     "grunt-contrib-watch": "*",
@@ -40,7 +40,9 @@
     "grunt-contrib-concat": "*",
     "grunt-contrib-cssmin": "*",
     "grunt-contrib-jshint": "*",
-    "grunt-contrib-csslint": "*"
+    "grunt-contrib-csslint": "*",
+    "grunt-dart-sass": "*",
+    "sass": "*"
   },
   "engines": {
     "node": "*"

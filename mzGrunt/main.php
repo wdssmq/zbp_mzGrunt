@@ -97,6 +97,7 @@ function mzBuilPath($id)
   // package.json内容生成
   $vJson = file_get_contents(mzGrunt_Path("v-json"));
   $uJson = strtr($vJson, $_POST);
+  // CSS 处理文件
   if ($uCSS = GetVars("app_style", "POST")) {
     $arrCSS = explode(".", $uCSS);
     $ex = array_pop($arrCSS);
@@ -133,7 +134,8 @@ $reloadType = $zbp->Config('mzGrunt')->reloadType;
 if ("3" == $reloadType) {
   $liveReload = $zbp->Config('mzGrunt')->liveReload;
   $liveReload = str_replace("http://127.0.0.1:", "", $liveReload);
-  $liveReload = "当前：{$liveReload}";
+  $liveReload = str_replace("{$zbp->host}zb_users/", "", $liveReload);
+  $liveReload = "<br>当前：{$liveReload}";
 } else {
   $liveReload = "";
 }
@@ -266,7 +268,7 @@ grunt test-css
     <h4>依赖安装</h4>
     <p>Git - Downloading Package：<a href="https://git-scm.com/download/win" title="Git - Downloading Package" target="_blank">https://git-scm.com/download/win</a></p>
     <p>Node.js：<a href="https://nodejs.org/zh-cn/" title="Node.js" target="_blank">https://nodejs.org/zh-cn/</a></p>
-    <p>Ruby：<a href="https://rubyinstaller.org/downloads/" title="Ruby" target="_blank">https://rubyinstaller.org/downloads/</a>（SASS需要,安装Ruby后运行<code>gem install sass</code>）</p>
+    <!-- <p>Ruby：<a href="https://rubyinstaller.org/downloads/" title="Ruby" target="_blank">https://rubyinstaller.org/downloads/</a>（SASS需要,安装Ruby后运行<code>gem install sass</code>）</p> -->
     <h4>在Git Bash中运行如下命令（只需运行一次）：</h4>
     <p>
     <pre><?php echo strtr($console, $arrLog); ?></pre>

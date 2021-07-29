@@ -10,14 +10,11 @@
     "disallowSpaceAfterPrefixUnaryOperators": true,
     "disallowSpaceBeforePostfixUnaryOperators": true,
     "disallowSpacesInCallExpression": true,
-    "disallowSpacesInFunction": {
-        "beforeOpeningRoundBrace": true
-    },
     "disallowSpacesInsideArrayBrackets": true,
     "disallowSpacesInsideBrackets": true,
-    "disallowSpacesInsideObjectBrackets": true,
+    "disallowSpacesInsideObjectBrackets": false,
     "disallowSpacesInsideParentheses": true,
-    "disallowTrailingComma": true,
+    "disallowTrailingComma": false,
     "disallowTrailingWhitespace": true,
 
     "requireBlocksOnNewline": true,
@@ -37,7 +34,7 @@
     "requirePaddingNewLinesBeforeLineComments": {
         "allExcept": "firstAfterCurly"
     },
-    "requirePaddingNewLinesInObjects": true,
+    "requirePaddingNewLinesInObjects": false,
     "requireParenthesesAroundIIFE": true,
     "requireSemicolons": true,
     "requireSpaceAfterBinaryOperators": true,
@@ -55,8 +52,8 @@
     },
 
     "safeContextKeyword": ["_this", "that", "self"],
-    "validateIndentation": 4,
+    "validateIndentation": 2,
     "validateLineBreaks": "LF",
     "validateParameterSeparator": ", ",
-    "validateQuoteMarks": "'"
+    "validateQuoteMarks": "\""
 }

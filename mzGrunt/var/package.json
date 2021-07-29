@@ -23,6 +23,13 @@
   "styleMin": "dist/app_id.min.css",
   "script": "dist/script.js",
   "scriptMin": "dist/script.min.js",
+  "scripts": {
+    "dist": "grunt dist",
+    "dist-css": "grunt dist-css",
+    "dist-js": "grunt dist-js",
+    "test-css": "grunt test-css",
+    "test-js": "grunt test-js"
+  },
   "devDependencies": {
     "grunt": "*",
     "time-grunt": "*",

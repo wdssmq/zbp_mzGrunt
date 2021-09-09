@@ -4,7 +4,7 @@ RegisterPlugin("mzGrunt", "ActivePlugin_mzGrunt");
 
 function ActivePlugin_mzGrunt()
 {
-  Add_Filter_Plugin('Filter_Plugin_Zbp_Load', 'mzGrunt_BuildTemplate');
+  Add_Filter_Plugin('Filter_Plugin_Index_End', 'mzGrunt_Debug');
   Add_Filter_Plugin('Filter_Plugin_Zbp_BuildTemplate', 'mzGrunt_GenTpl');
   // Add_Filter_Plugin('Filter_Plugin_Admin_Footer', 'mzGrunt_AdminFooter');
 }
@@ -16,11 +16,17 @@ function mzGrunt_AdminFooter()
   }
   echo mzGrunt_ReloadJS();
 }
-function mzGrunt_BuildTemplate()
+function mzGrunt_Debug()
 {
   global $zbp;
-  if ($zbp->option['ZC_DEBUG_MODE']) {
-    // $zbp->BuildTemplate();
+  $dev = GetVars("dev", "GET");
+  if ($dev !== null) {
+    mzGrunt_CheckLiveReload(1);
+    $zbp->BuildTemplate();
+    if ($zbp->CheckPlugin('FileIgnore')) {
+      FileIgnore_BuildModule();
+    }
+    Redirect($zbp->fullcurrenturl);
   }
 }
 function mzGrunt_GenTpl(&$templates)
@@ -29,11 +35,6 @@ function mzGrunt_GenTpl(&$templates)
   if (!$zbp->option['ZC_DEBUG_MODE']) {
     return;
   }
-  // $uFile = mzGrunt_Path("zblogphp.js");
-  // $vFile = mzGrunt_Path("zblogphp.orig.js");
-  // if (is_file($vFile)) {
-  //   copy($vFile, $uFile);
-  // }
   $templates['header'] = str_replace('{$style}.css', '{$style}.css?x=' . time(), $templates['header']);
   $liveReload = mzGrunt_ReloadJS();
   $templates['footer'] = str_replace('{$footer}', '{$footer}' . $liveReload, $templates['footer']);

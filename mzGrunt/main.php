@@ -94,7 +94,7 @@ function mzBuilPath($id)
     FileUtil::unlinkFile($sFile);
   }
 
-  // package.json内容生成
+  // package.json 内容生成
   $vJson = file_get_contents(mzGrunt_Path("v-json"));
   $uJson = strtr($vJson, $_POST);
   // CSS 处理文件
@@ -173,7 +173,7 @@ require $blogpath . 'zb_system/admin/admin_top.php';
             <td></td>
           </tr>
           <tr>
-            <td><b>· CSS预处理入口文件</b></td>
+            <td><b>· CSS 预处理入口文件</b></td>
             <td>
               <input id="app_style" name="app_style" style="width:450px;" type="text" value="">
             </td>
@@ -184,7 +184,7 @@ require $blogpath . 'zb_system/admin/admin_top.php';
           </tr>
           <tr>
             <td colspan="3" style="text-align: center;">
-              以下内容来自主题的theme.xml,如需修改建议点击<a target="_blank" title="编辑主题" href="" class="js-editBTN">[编辑]</a>
+              以下内容来自主题的 theme.xml，如需修改建议点击<a target="_blank" title="编辑主题" href="" class="js-editBTN">「编辑」</a>
               <p class="js-editURL hidden"><?php echo $bloghost; ?>zb_users/plugin/AppCentre/theme_edit.php?id=<span class="js-id"></span>&token=<?php echo $zbp->GetToken('AppCentre'); ?></p>
             </td>
           </tr>
@@ -227,8 +227,8 @@ require $blogpath . 'zb_system/admin/admin_top.php';
           </td>
           <tr>
             <td><b>· livereload</b></td>
-            <td><?php echo zbpform::select('reloadType', array('1' => '网页内定时查询（仅针对CSS）', '2' => '编辑器/构建工具通知更新', '3' => '自动检测'), $zbp->config("mzGrunt")->reloadType); ?><?php echo $liveReload; ?></td>
-            <td>推送调用端口+文件名 :35729/livereload.js</td>
+            <td><?php echo zbpform::select('reloadType', array('1' => '网页内定时查询（仅针对 CSS）', '2' => '编辑器/构建工具通知更新', '3' => '自动检测'), $zbp->config("mzGrunt")->reloadType); ?><?php echo $liveReload; ?></td>
+            <td>推送调用端口 + 文件名 :35729/livereload.js</td>
           </tr>
         </tbody>
       </table>
@@ -239,37 +239,40 @@ require $blogpath . 'zb_system/admin/admin_top.php';
     // $console = str_replace("\n", "<br>", $console);
     $arrLog = array();
     $arrLog["pAth"] = $usersdir . "theme/";
+    $arrLog["pAthThEme"] = $arrLog["pAth"] . $blogtheme . "/";
     $arrLog["fIle"] = mzGrunt_Path("v-json");
     ?>
     <h4>简要：</h4>
-    <p>选择主题并提交会在主题目录下创建一个compile文件夹并放入Grunt所需文件，在命令行下进入该路径即可使用Grunt构建主题的CSS和JS，包括：</p>
-    <p>·LESS、SASS编译生成CSS，CSS属性前缀添加，CSS属性排序……;</p>
-    <p>·JS文件合并，压缩，语法检测……;</p>
-    <h4>预置命令（需要先安装Git，Node，Grunt及相关的依赖）</h4>
+    <p>选择主题并提交会在主题目录下创建一个 compile 文件夹并放入 Grunt 所需文件，在命令行下进入该路径即可使用 Grunt 构建主题的 CSS 和 JS，包括：</p>
+    <p>· LESS、SASS 编译生成 CSS，CSS 属性前缀添加，CSS 属性排序……;</p>
+    <p>· JS 文件合并，压缩，语法检测……;</p>
+    <h4>推荐（适用于插件或不需要预处理 CSS/JS 的主题）：</h4>
+    <p>「开发工具」BrowserSync - Z-Blog 应用中心</p><p><a href="https://app.zblogcn.com/?id=27743" target="_blank" title="「开发工具」BrowserSync - Z-Blog 应用中心">https://app.zblogcn.com/?id=27743</a></p>
+    <h4>预置命令（需要先安装 Git, Node, Grunt 及相关的依赖）</h4>
+    <h5>下方命令会预置在主题 compile/package.json 内，可配合编辑器任务调用</h5>
     <p>
     <pre>
-grunt dist-css
+cd <?php echo $arrLog["pAthThEme"]; ?>compile
+#—— 进入主题路径
 
-#—— 编译并压缩CSS
+npm run dist
+#—— 调用 dist-css、dist-js 然后开启监听（自动编译 Less 或者刷新网页）
 
-#grunt dist-js
+npm run dist-css
+#—— 编译并压缩 CSS
 
-#—— 合并并压缩js
+npm run dist-js
+#—— 合并并压缩 js
 
-#grunt dist
-
-#—— 调用dist-css、dist-js然后开启监听（自动编译Less或者刷新网页）
-
-grunt test-css
-
-#—— 检查并提示CSS语法错误，同样有test-js
+npm run test-css
+#—— 检查并提示 CSS 语法错误，同样有 test-js
   </pre>
     </p>
     <h4>依赖安装</h4>
     <p>Git - Downloading Package：<a href="https://git-scm.com/download/win" title="Git - Downloading Package" target="_blank">https://git-scm.com/download/win</a></p>
     <p>Node.js：<a href="https://nodejs.org/zh-cn/" title="Node.js" target="_blank">https://nodejs.org/zh-cn/</a></p>
     <!-- <p>Ruby：<a href="https://rubyinstaller.org/downloads/" title="Ruby" target="_blank">https://rubyinstaller.org/downloads/</a>（SASS需要,安装Ruby后运行<code>gem install sass</code>）</p> -->
-    <h4>在Git Bash中运行如下命令（只需运行一次）：</h4>
+    <h4>在 Git Bash 中运行如下命令（只需运行一次）：</h4>
     <p>
     <pre><?php echo strtr($console, $arrLog); ?></pre>
     </p>

@@ -12,6 +12,7 @@ if (!$zbp->CheckPlugin('mzGrunt')) {
   $zbp->ShowError(48);
   die();
 }
+
 // 生成处理
 $act = GetVars('act', 'GET');
 $suc = GetVars('suc', 'GET');
@@ -27,6 +28,7 @@ if (GetVars('act', 'GET') == 'save') {
   Redirect('./main.php' . ($suc == null ? '' : '?act=$suc'));
 }
 
+// 表单输出预处理
 $options = "";
 $arrAid = array("（当前）", "（已生成）");
 $allthemes = $zbp->LoadThemes();
@@ -62,6 +64,20 @@ foreach ($allthemes as $theme) {
   }
   $options .= mzGenOption($theme->id, $theme->name, $selected);
 }
+
+// 强制检查 LiveReload
+mzGrunt_CheckLiveReload(true);
+$reloadType = $zbp->Config('mzGrunt')->reloadType;
+if ("3" == $reloadType) {
+  $liveReload = $zbp->Config('mzGrunt')->liveReload;
+  $liveReload = str_replace("http://127.0.0.1:", "", $liveReload);
+  $liveReload = str_replace("{$zbp->host}zb_users/", "", $liveReload);
+  $liveReload = "<br>当前：{$liveReload}";
+} else {
+  $liveReload = "";
+}
+
+// 生成配置文件到主题目录
 function mzBuilPath($id)
 {
   global $zbp, $blogtheme;
@@ -70,6 +86,7 @@ function mzBuilPath($id)
   $pgkFile = "";
   $AppDir = mzGenPath(trim($id), $gruntPath, $pgkFile);
 
+  // 创建目录并写入配置文件
   if (!is_dir($gruntPath) || $over) {
     @mkdir($gruntPath, 0755);
     FileUtil::copyDir(mzGrunt_Path("var"), $gruntPath, true);
@@ -99,6 +116,7 @@ function mzBuilPath($id)
   // package.json 内容生成
   $vJson = file_get_contents(mzGrunt_Path("v-json"));
   $uJson = strtr($vJson, $_POST);
+
   // CSS 处理文件
   if ($uCSS = GetVars("app_style", "POST")) {
     $arrCSS = explode(".", $uCSS);
@@ -108,11 +126,15 @@ function mzBuilPath($id)
       @mkdir($dirAG, 0755);
       #code
     }
+    $uJson = str_replace("-$ex-", $uCSS, $uJson);
   }
-  $uJson = str_replace("-$ex-", $uCSS, $uJson);
+
+  // 写入文件
   $uJson = mzReplaceUsrDir($uJson);
   file_put_contents($pgkFile, $uJson);
 }
+
+// 路径配置项不为空时替换
 function mzReplaceUsrDir($str)
 {
   global $zbp;
@@ -122,6 +144,8 @@ function mzReplaceUsrDir($str)
   }
   return $str;
 }
+
+// 获取所需要的文件路径
 function mzGenPath($id, &$gruntPath = "", &$pgkFile = "")
 {
   $dir = "{$GLOBALS['usersdir']}theme/{$id}/";
@@ -129,6 +153,8 @@ function mzGenPath($id, &$gruntPath = "", &$pgkFile = "")
   $pgkFile = "{$gruntPath}package.json";
   return $dir;
 }
+
+// 表单 option 生成
 function mzGenOption($v, $t = null, $s = "")
 {
   if (empty($t)) {
@@ -140,17 +166,7 @@ function mzGenOption($v, $t = null, $s = "")
   $arr = array('-t-' => $t, '-v-' => $v, "data-selected" => $s);
   return strtr("<option value=\"-v-\" data-selected>-t-</option>", $arr);
 }
-// 强制检查 LiveReload
-mzGrunt_CheckLiveReload(true);
-$reloadType = $zbp->Config('mzGrunt')->reloadType;
-if ("3" == $reloadType) {
-  $liveReload = $zbp->Config('mzGrunt')->liveReload;
-  $liveReload = str_replace("http://127.0.0.1:", "", $liveReload);
-  $liveReload = str_replace("{$zbp->host}zb_users/", "", $liveReload);
-  $liveReload = "<br>当前：{$liveReload}";
-} else {
-  $liveReload = "";
-}
+
 $blogtitle = 'Grunt';
 require $blogpath . 'zb_system/admin/admin_header.php';
 require $blogpath . 'zb_system/admin/admin_top.php';
@@ -238,7 +254,7 @@ require $blogpath . 'zb_system/admin/admin_top.php';
             通用选项
           </td>
           <tr>
-            <td>实际路径</td>
+            <td><b>· 实际路径</b></td>
             <td><?php zbpform::text("usersdir", $zbp->Config("mzGrunt")->usersdir, "90%"); ?></td>
             <td>站点如果在 Docker 内需要手动指定，否则留空；<?php echo $zbp->usersdir ?></td>
           </tr>
@@ -248,6 +264,7 @@ require $blogpath . 'zb_system/admin/admin_top.php';
             <td>推送调用端口 + 文件名 :35729/livereload.js</td>
           </tr>
         </tbody>
+
       </table>
       <input type="submit"> <label for="over"><input type="text" class="checkbox" name="over" id="over">覆盖已有文件</label>
     </form>
@@ -266,7 +283,8 @@ require $blogpath . 'zb_system/admin/admin_top.php';
     <p>· LESS、SASS 编译生成 CSS，CSS 属性前缀添加，CSS 属性排序……;</p>
     <p>· JS 文件合并，压缩，语法检测……;</p>
     <h4>推荐（适用于插件或不需要预处理 CSS/JS 的主题）：</h4>
-    <p>「开发工具」BrowserSync - Z-Blog 应用中心</p><p><a href="https://app.zblogcn.com/?id=27743" target="_blank" title="「开发工具」BrowserSync - Z-Blog 应用中心">https://app.zblogcn.com/?id=27743</a></p>
+    <p>「开发工具」BrowserSync - Z-Blog 应用中心</p>
+    <p><a href="https://app.zblogcn.com/?id=27743" target="_blank" title="「开发工具」BrowserSync - Z-Blog 应用中心">https://app.zblogcn.com/?id=27743</a></p>
     <h4>预置命令（需要先安装 Git, Node, Grunt 及相关的依赖）</h4>
     <h5>下方命令会预置在主题 compile/package.json 内，可配合编辑器任务调用</h5>
     <p>

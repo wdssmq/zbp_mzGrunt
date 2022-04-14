@@ -49,7 +49,7 @@ function mzGrunt_ReloadJS()
       $script .= '<script src="' . mzGrunt_Path("script/livereload.js", "host") . '"></script>';
       break;
     case '2':
-      $script .= '<script src="http://127.0.0.1:35729/livereload.js?snipver=1"></script>';
+      $script .= '<script src="http://localhost:35729/livereload.js?snipver=1"></script>';
       break;
     default:
       $script .= '<script src="' . mzGrunt_CheckLiveReload() . '"></script>';;

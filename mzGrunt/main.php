@@ -16,9 +16,11 @@ if (!$zbp->CheckPlugin('mzGrunt')) {
 $act = GetVars('act', 'GET');
 $suc = GetVars('suc', 'GET');
 if (GetVars('act', 'GET') == 'save') {
-  $zbp->config('mzGrunt')->reloadType = GetVars("reloadType", "POST");
-  $zbp->config('mzGrunt')->Save();
   CheckIsRefererValid();
+  $zbp->config('mzGrunt')->reloadType = GetVars("reloadType", "POST");
+  $zbp->config('mzGrunt')->usersdir = trim(GetVars("usersdir", "POST"));
+  $zbp->config('mzGrunt')->usersdir = rtrim($zbp->config('mzGrunt')->usersdir, '/') . '/';
+  $zbp->config('mzGrunt')->Save();
   mzBuilPath(GetVars("app_id", "POST"));
   $zbp->BuildTemplate();
   $zbp->SetHint('good');
@@ -108,7 +110,17 @@ function mzBuilPath($id)
     }
   }
   $uJson = str_replace("-$ex-", $uCSS, $uJson);
+  $uJson = mzReplaceUsrDir($uJson);
   file_put_contents($pgkFile, $uJson);
+}
+function mzReplaceUsrDir($str)
+{
+  global $zbp;
+  $usersdir = $zbp->Config('mzGrunt')->usersdir;
+  if (!empty($usersdir) && $usersdir !== "/") {
+    $str = str_replace($zbp->usersdir, $usersdir, $str);
+  }
+  return $str;
 }
 function mzGenPath($id, &$gruntPath = "", &$pgkFile = "")
 {
@@ -226,6 +238,11 @@ require $blogpath . 'zb_system/admin/admin_top.php';
             通用选项
           </td>
           <tr>
+            <td>实际路径</td>
+            <td><?php zbpform::text("usersdir", $zbp->Config("mzGrunt")->usersdir, "90%"); ?></td>
+            <td>站点如果在 Docker 内需要手动指定，否则留空；<?php echo $zbp->usersdir ?></td>
+          </tr>
+          <tr>
             <td><b>· livereload</b></td>
             <td><?php echo zbpform::select('reloadType', array('1' => '网页内定时查询（仅针对 CSS）', '2' => '编辑器/构建工具通知更新', '3' => '自动检测'), $zbp->config("mzGrunt")->reloadType); ?><?php echo $liveReload; ?></td>
             <td>推送调用端口 + 文件名 :35729/livereload.js</td>
@@ -239,8 +256,10 @@ require $blogpath . 'zb_system/admin/admin_top.php';
     // $console = str_replace("\n", "<br>", $console);
     $arrLog = array();
     $arrLog["pAth"] = $usersdir . "theme/";
+    $arrLog["pAth"] = mzReplaceUsrDir($arrLog["pAth"]);
     $arrLog["pAthThEme"] = $arrLog["pAth"] . $blogtheme . "/";
     $arrLog["fIle"] = mzGrunt_Path("v-json");
+    $arrLog["fIle"] = mzReplaceUsrDir($arrLog["fIle"]);
     ?>
     <h4>简要：</h4>
     <p>选择主题并提交会在主题目录下创建一个 compile 文件夹并放入 Grunt 所需文件，在命令行下进入该路径即可使用 Grunt 构建主题的 CSS 和 JS，包括：</p>
@@ -302,6 +321,10 @@ npm run test-css
     // console.log($(this).val());
   });
   fill($("#app_id").val());
+  // usersdir 值为 / 时清空；
+  if ($("#usersdir").val() == "/") {
+    $("#usersdir").val("");
+  }
 </script>
 <?php
 require $blogpath . 'zb_system/admin/admin_footer.php';

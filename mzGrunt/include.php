@@ -36,6 +36,7 @@ function mzGrunt_GenTpl(&$templates)
     return;
   }
   $templates['header'] = str_replace('{$style}.css', '{$style}.css?x=' . time(), $templates['header']);
+  $templates['footer'] = str_replace('script.min.js', 'script.js', $templates['footer']);
   $liveReload = mzGrunt_ReloadJS();
   $templates['footer'] = str_replace('{$footer}', '{$footer}' . $liveReload, $templates['footer']);
 }

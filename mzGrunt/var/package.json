@@ -32,29 +32,27 @@
   },
   "devDependencies": {
     "grunt": "*",
-    "time-grunt": "*",
-    "load-grunt-tasks": "*",
-    "load-grunt-parent-tasks": "*",
-    "grunt-jscs": "*",
-    "grunt-banner": "*",
-    "grunt-csscomb": "*",
-    "grunt-text-replace": "*",
     "grunt-autoprefixer": "*",
-    "grunt-contrib-less": "*",
-    "grunt-contrib-copy": "*",
-    "grunt-contrib-watch": "*",
+    "grunt-banner": "*",
     "grunt-contrib-clean": "*",
     "grunt-contrib-concat": "*",
+    "grunt-contrib-copy": "*",
+    "grunt-contrib-csslint": "*",
     "grunt-contrib-cssmin": "*",
     "grunt-contrib-jshint": "*",
-    "grunt-contrib-csslint": "*",
+    "grunt-contrib-less": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-csscomb": "*",
     "grunt-dart-sass": "*",
-    "sass": "*"
+    "grunt-jscs": "*",
+    "grunt-text-replace": "*",
+    "load-grunt-parent-tasks": "*",
+    "load-grunt-tasks": "*",
+    "sass": "*",
+    "time-grunt": "*"
   },
   "engines": {
     "node": "*"
-  },
-  "dependencies": {
-    "grunt-contrib-uglify-es": "gruntjs/grunt-contrib-uglify#harmony"
   }
 }

@@ -1,4 +1,6 @@
-/*!
+/* global require:false */
+
+/* !
  * Grunt For Z-Blog 0.1.1 (http://www.wdssmq.com)
  * Copyright 2013-2015 沉冰浮水
  */
@@ -17,7 +19,7 @@ module.exports = function (grunt) {
     banner:
       "/*!\n" +
       " * <%= pkg.id%> <%= pkg.version %> (<%= pkg.homepage %>)\n" +
-      ' * Copyright <%= pkg.pubdate %> [-] <%=  grunt.template.today("yyyy-mm-dd") %> <%= pkg.author %>\n' +
+      " * Copyright <%= pkg.pubdate %> [-] <%=  grunt.template.today(\"yyyy-mm-dd\") %> <%= pkg.author %>\n" +
       " * <%= pkg.description %>\n" +
       " */\n",
 

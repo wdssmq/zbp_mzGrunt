@@ -184,6 +184,7 @@ require $blogpath . 'zb_system/admin/admin_top.php';
   </div>
   <div id="divMain2">
     <form method="post" action="<?php echo BuildSafeURL("main.php?act=save"); ?>">
+      <input type="hidden" id="zb_host" name="zb_host" value="<?php echo $bloghost; ?>">
       <input type="hidden" id="zb_path" name="zb_path" value="<?php echo $usersdir . "theme/"; ?>">
       <input type="hidden" id="cfg_path" name="cfg_path" value="<?php echo mzGrunt_Path("cfg"); ?>">
       <table width="100%" cellspacing="0" cellpadding="0" class="tableBorder tableBorder-thcenter table_striped table_hover">

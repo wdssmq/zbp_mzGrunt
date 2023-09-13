@@ -220,18 +220,23 @@ module.exports = function (grunt) {
         files: ["js/**/*.js"],
         tasks: ["dist-js"],
       },
-      // 自动刷新网页
-      client: {
-        files: [
-          "<%= path %>/**/*.css",
-          "<%= path %>/**/*.js",
-          "<%= path %>/**/*.html",
-          "<%= path %>/**/*.php",
-          "<%= path %>/**/*.asp",
-          "<%= path %>/**/*.json",
-        ],
+    },
+    // 自动刷新网页
+    browserSync: {
+      dev: {
+        bsFiles: {
+          src: [
+            "<%= path %>/**/*.css",
+            "<%= path %>/**/*.js",
+            "<%= path %>/**/*.html",
+            "<%= path %>/**/*.php",
+            "<%= path %>/**/*.asp",
+            "<%= path %>/**/*.json",
+          ],
+        },
         options: {
-          livereload: true,
+          watchTask: true,
+          proxy: "<%= pkg.host %>",
         },
       },
     },
@@ -267,5 +272,5 @@ module.exports = function (grunt) {
   grunt.registerTask("dist-js", ["concat", "uglify", "copy:js"]);
 
   // Default task.
-  grunt.registerTask("dist", ["clean", "dist-css", "dist-js", "watch"]);
+  grunt.registerTask("dist", ["clean", "dist-css", "dist-js", "browserSync", "watch"]);
 };

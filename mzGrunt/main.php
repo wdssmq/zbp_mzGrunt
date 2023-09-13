@@ -65,8 +65,11 @@ foreach ($allthemes as $theme) {
   $options .= mzGenOption($theme->id, $theme->name, $selected);
 }
 
-// 强制检查 LiveReload
-mzGrunt_CheckLiveReload(true);
+// ↓ 废弃 2023-09-13
+// // 强制检查 LiveReload
+// mzGrunt_CheckLiveReload(true);
+// ↑ 废弃 2023-09-13
+
 $reloadType = $zbp->Config('mzGrunt')->reloadType;
 if ("3" == $reloadType) {
   $liveReload = $zbp->Config('mzGrunt')->liveReload;
@@ -259,11 +262,11 @@ require $blogpath . 'zb_system/admin/admin_top.php';
             <td><?php zbpform::text("usersdir", $zbp->Config("mzGrunt")->usersdir, "90%"); ?></td>
             <td>站点如果在 Docker 内需要手动指定，否则留空；<?php echo $zbp->usersdir ?></td>
           </tr>
-          <tr>
+          <!-- <tr>
             <td><b>· livereload</b></td>
             <td><?php echo zbpform::select('reloadType', array('1' => '网页内定时查询（仅针对 CSS）', '2' => '编辑器/构建工具通知更新', '3' => '自动检测'), $zbp->config("mzGrunt")->reloadType); ?><?php echo $liveReload; ?></td>
             <td>推送调用端口 + 文件名 :35729/livereload.js</td>
-          </tr>
+          </tr> -->
         </tbody>
 
       </table>

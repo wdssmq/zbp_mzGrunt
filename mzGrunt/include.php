@@ -8,20 +8,27 @@ function ActivePlugin_mzGrunt()
   Add_Filter_Plugin('Filter_Plugin_Zbp_BuildTemplate', 'mzGrunt_GenTpl');
   // Add_Filter_Plugin('Filter_Plugin_Admin_Footer', 'mzGrunt_AdminFooter');
 }
+
+// 废弃 2023-09-13 ↓
 function mzGrunt_AdminFooter()
 {
   global $zbp;
   if (stripos($zbp->currenturl, "AppCentre") !== false) {
     return;
   }
-  echo mzGrunt_ReloadJS();
+  // 废弃 2023-09-13 ↓
+  // echo mzGrunt_ReloadJS();
+  // 废弃 2023-09-13 ↑
 }
+// 废弃 2023-09-13 ↑
+
 function mzGrunt_Debug()
 {
   global $zbp;
   $dev = GetVars("dev", "GET");
   if ($dev !== null) {
-    mzGrunt_CheckLiveReload(1);
+    // 废弃 2023-09-13
+    // mzGrunt_CheckLiveReload(1);
     $zbp->BuildTemplate();
     if ($zbp->CheckPlugin('FileIgnore')) {
       FileIgnore_BuildModule();
@@ -29,6 +36,7 @@ function mzGrunt_Debug()
     Redirect($zbp->fullcurrenturl);
   }
 }
+
 function mzGrunt_GenTpl(&$templates)
 {
   global $zbp;
@@ -37,9 +45,13 @@ function mzGrunt_GenTpl(&$templates)
   }
   $templates['header'] = str_replace('{$style}.css', '{$style}.css?x=' . time(), $templates['header']);
   $templates['footer'] = str_replace('script.min.js', 'script.js', $templates['footer']);
-  $liveReload = mzGrunt_ReloadJS();
-  $templates['footer'] = str_replace('{$footer}', '{$footer}' . $liveReload, $templates['footer']);
+  // 废弃 2023-09-13 ↓
+  // $liveReload = mzGrunt_ReloadJS();
+  // $templates['footer'] = str_replace('{$footer}', '{$footer}' . $liveReload, $templates['footer']);
+  // 废弃 2023-09-13 ↑
 }
+
+// 废弃 2023-09-13 ↓
 function mzGrunt_ReloadJS()
 {
   global $zbp;
@@ -58,6 +70,9 @@ function mzGrunt_ReloadJS()
   }
   return $script . "\n<!--↑livereload {$reloadType}↑-->\n";
 }
+// 废弃 2023-09-13 ↑
+
+// 废弃 2023-09-13 ↓
 function mzGrunt_CheckLiveReload($force = false)
 {
   global $zbp;
@@ -81,6 +96,8 @@ function mzGrunt_CheckLiveReload($force = false)
   $zbp->BuildTemplate();
   return $liveReload;
 }
+// 废弃 2023-09-13 ↑
+
 function mzGrunt_Network($url)
 {
   $http = Network::Create();
@@ -92,6 +109,7 @@ function mzGrunt_Network($url)
   }
   return false;
 }
+
 function mzGrunt_Path($file, $t = 'path')
 {
   global $zbp;
@@ -128,9 +146,11 @@ function mzGrunt_Path($file, $t = 'path')
       return $result . $file;
   }
 }
+
 function InstallPlugin_mzGrunt()
 {
 }
+
 function UninstallPlugin_mzGrunt()
 {
 }

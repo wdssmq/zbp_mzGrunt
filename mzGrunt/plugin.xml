@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="php">
 <id>mzGrunt</id>
-<name>使用 Grunt 开发 ZBlog 主题</name>
+<name>「开发工具」Grunt</name>
 <url>//jq.qq.com/?_wv=1027&amp;k=5sE9rKH</url>
-<note>为主题引入Grunt</note>
+<note>为主题引入 Grunt</note>
 <description>置百丈玄冰而崩裂，掷须臾池水而漂摇。</description>
 <path>main.php</path>
 <include>include.php</include>
@@ -21,7 +21,7 @@
 <adapted>151935</adapted>
 <version>1.0.1</version>
 <pubdate>2019-01-08</pubdate>
-<modified>2022-04-15</modified>
+<modified>2023-09-13</modified>
 <price>0</price>
 <phpver>5.6</phpver>
 <advanced>

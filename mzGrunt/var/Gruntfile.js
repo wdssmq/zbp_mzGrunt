@@ -18,7 +18,7 @@ module.exports = function(grunt) {
     path: "<%= pkg.path %>/<%= pkg.id %>",
     banner:
       "/*!\n" +
-      " * <%= pkg.id%> <%= pkg.version %> (<%= pkg.homepage %>)\n" +
+      " * <%= pkg.id %> <%= pkg.version %> (<%= pkg.homepage %>)\n" +
       " * Copyright <%= pkg.pubdate %> [-] <%=  grunt.template.today(\"yyyy-mm-dd\") %> <%= pkg.author %>\n" +
       " * <%= pkg.description %>\n" +
       " */\n",
@@ -127,7 +127,7 @@ module.exports = function(grunt) {
     // 语法检查
     csslint: {
       options: {
-        csslintrc: "<%= pkg.pathCFG%>/.csslintrc",
+        csslintrc: "<%= pkg.pathCFG %>/.csslintrc",
       },
       dist: ["<%= pkg.style %>"],
     },
@@ -161,7 +161,7 @@ module.exports = function(grunt) {
     // JS语法检测
     jshint: {
       options: {
-        jshintrc: "<%= pkg.pathCFG%>/.jshintrc",
+        jshintrc: "<%= pkg.pathCFG %>/.jshintrc",
       },
       src: {
         src: "js/*.js",
@@ -183,8 +183,8 @@ module.exports = function(grunt) {
 
     replace: {
       cssMap: {
-        src: "<%= pkg.styleMin%>.map",
-        dest: "<%= pkg.styleMin%>.map",
+        src: "<%= pkg.styleMin %>.map",
+        dest: "<%= pkg.styleMin %>.map",
         replacements: [
           {
             from: "dist\\\\",

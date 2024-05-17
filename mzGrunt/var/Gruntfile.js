@@ -227,8 +227,8 @@ module.exports = function(grunt) {
       dev: {
         bsFiles: {
           src: [
-            "<%= path %>/**/*.css",
-            "<%= path %>/**/*.js",
+            "../style/*.css",
+            "../script/*.js",
             "<%= path %>/**/*.html",
             "<%= path %>/**/*.php",
             "<%= path %>/**/*.asp",
@@ -238,6 +238,7 @@ module.exports = function(grunt) {
         options: {
           watchTask: true,
           proxy: "<%= pkg.host %>",
+          reloadDebounce: 593
         },
       },
     },

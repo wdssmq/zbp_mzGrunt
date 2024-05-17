@@ -199,7 +199,7 @@ module.exports = function(grunt) {
         expand: true,
         flatten: true,
         cwd: "dist/",
-        src: ["*.css", "*.min.css.map"],
+        src: ["<%= pkg.id %>.css", "<%= pkg.id %>.min.css"],
         dest: "<%= path %>/style/",
       },
       js: {

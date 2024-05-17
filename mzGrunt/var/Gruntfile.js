@@ -54,9 +54,23 @@ module.exports = function(grunt) {
         //   outFile: "<%= pkg.style %>",
         // },
         files: {
-          "<%= pkg.style %>": "<%= pkg.sass %>",
+          // "<%= pkg.style %>": "<%= pkg.sass %>",
+          "dist/for-purge.css": "<%= pkg.sass %>",
         },
       },
+    },
+
+    // 去除无用 CSS
+    purgecss: {
+      my_target: {
+        options: {
+          content: ['<%= path %>/template/**/*.php']
+        },
+        files: {
+          // 'dist/purg.css': "<%= pkg.style %>",
+          "<%= pkg.style %>": "dist/for-purge.css",
+        }
+      }
     },
 
     // 压缩
@@ -247,6 +261,7 @@ module.exports = function(grunt) {
   }
   grunt.registerTask("dist-css", [
     cssType,
+    "purgecss",
     // "autoprefixer",
     // "csscomb",
     "cssmin",

@@ -47,6 +47,7 @@
     "grunt-contrib-watch": "^1.1.0",
     "grunt-csscomb": "^4.2.0",
     "grunt-dart-sass": "^2.0.1",
+    "grunt-purgecss": "^6.0.0",
     "grunt-text-replace": "^0.4.0",
     "load-grunt-parent-tasks": "^0.1.2",
     "load-grunt-tasks": "^5.1.0",

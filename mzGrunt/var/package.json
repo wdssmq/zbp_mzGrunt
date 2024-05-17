@@ -33,7 +33,6 @@
   },
   "devDependencies": {
     "grunt": "^1.6.1",
-    "grunt-autoprefixer": "^3.0.4",
     "grunt-banner": "^0.6.0",
     "grunt-browser-sync": "^2.2.0",
     "grunt-contrib-clean": "^2.0.1",
@@ -51,8 +50,7 @@
     "grunt-text-replace": "^0.4.0",
     "load-grunt-parent-tasks": "^0.1.2",
     "load-grunt-tasks": "^5.1.0",
-    "sass": "^1.66.1",
-    "time-grunt": "^2.0.0"
+    "sass": "^1.66.1"
   },
   "engines": {
     "node": "*"

@@ -91,27 +91,6 @@ module.exports = function(grunt) {
       },
     },
 
-    // 代码完善
-    autoprefixer: {
-      options: {
-        browsers: [
-          "Android >= 4",
-          "Chrome >= 20",
-          "Firefox >= 24", // Firefox 24 is the latest ESR
-          "Explorer >= 9",
-          "iOS >= 6",
-          "Opera >= 16",
-          "Safari >= 6",
-        ],
-      },
-      core: {
-        options: {
-          map: false,
-        },
-        src: "<%= pkg.style %>",
-      },
-    },
-
     // 属性排序
     csscomb: {
       options: {
@@ -263,7 +242,6 @@ module.exports = function(grunt) {
   grunt.registerTask("dist-css", [
     cssType,
     "purgecss",
-    // "autoprefixer",
     // "csscomb",
     "cssmin",
     "usebanner",

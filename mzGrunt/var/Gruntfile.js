@@ -5,7 +5,7 @@
  * Copyright 2013-2015 沉冰浮水
  */
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
   require("load-grunt-parent-tasks")(grunt, {
     config: "package.json",
     pattern: "grunt-*",
@@ -28,7 +28,7 @@ module.exports = function (grunt) {
       dist: ["dist"],
     },
 
-    // 编译
+    // 编译 less
     less: {
       options: {
         ieCompat: true,
@@ -45,6 +45,8 @@ module.exports = function (grunt) {
         dest: "<%= pkg.style %>",
       },
     },
+
+    // 编译 sass
     "dart-sass": {
       target: {
         // options: {

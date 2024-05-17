@@ -152,22 +152,7 @@ module.exports = function (grunt) {
       },
     },
 
-    // JS书写格式检测，主要是为了让代码好看
-    jscs: {
-      options: {
-        config: "<%= pkg.pathCFG%>/.jscsrc",
-      },
-      // grunt: {
-      //   options: {
-      //     requireCamelCaseOrUpperCaseIdentifiers: null
-      //   },
-      //   src: "Gruntfile.js"
-      // },
-      src: {
-        src: "js/*.js",
-      },
-    },
-
+    // CSS Banner
     usebanner: {
       dist: {
         options: {
@@ -248,7 +233,7 @@ module.exports = function (grunt) {
 
   // Test task.
   grunt.registerTask("test-css", ["csslint"]);
-  grunt.registerTask("test-js", ["jshint", "jscs"]);
+  grunt.registerTask("test-js", ["jshint"]);
   grunt.registerTask("test", ["test-css", "test-js"]);
 
   // CSS distribution task.

@@ -214,7 +214,7 @@ module.exports = function(grunt) {
     watch: {
       // 自动编译
       css: {
-        files: ["less/**/*.less", "sass/**/*.sass"],
+        files: ["less/**/*.less", "sass/**/*.sass", '<%= path %>/template/purge-keep/*.php'],
         tasks: ["dist-css"],
       },
       js: {

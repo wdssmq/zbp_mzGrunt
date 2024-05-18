@@ -42,7 +42,8 @@ module.exports = function(grunt) {
           sourceMapFilename: "dist/<%= pkg.id %>.css.map",
         },
         src: "<%= pkg.less %>",
-        dest: "<%= pkg.style %>",
+        // dest: "<%= pkg.style %>",
+        dest: "dist/for-purge.css",
       },
     },
 

@@ -65,13 +65,13 @@ module.exports = function(grunt) {
     purgecss: {
       my_target: {
         options: {
-          content: ['<%= path %>/template/**/*.php']
+          content: ["<%= path %>/template/**/*.php"],
         },
         files: {
           // 'dist/purg.css': "<%= pkg.style %>",
           "<%= pkg.style %>": "dist/for-purge.css",
-        }
-      }
+        },
+      },
     },
 
     // 压缩
@@ -194,7 +194,7 @@ module.exports = function(grunt) {
     watch: {
       // 自动编译
       css: {
-        files: ["less/**/*.less", "sass/**/*.sass", '<%= path %>/template/purge-keep/*.php'],
+        files: ["less/**/*.less", "sass/**/*.sass", "<%= path %>/template/purge-keep/*.php"],
         tasks: ["dist-css"],
       },
       js: {
@@ -218,7 +218,7 @@ module.exports = function(grunt) {
         options: {
           watchTask: true,
           proxy: "<%= pkg.host %>",
-          reloadDebounce: 593
+          reloadDebounce: 593,
         },
       },
     },

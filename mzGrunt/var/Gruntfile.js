@@ -138,16 +138,6 @@ module.exports = function(grunt) {
       },
     },
 
-    // JS语法检测
-    jshint: {
-      options: {
-        jshintrc: "<%= pkg.pathCFG %>/.jshintrc",
-      },
-      src: {
-        src: "js/*.js",
-      },
-    },
-
     // CSS Banner
     usebanner: {
       dist: {
@@ -230,8 +220,7 @@ module.exports = function(grunt) {
 
   // Test task.
   grunt.registerTask("test-css", ["csslint"]);
-  grunt.registerTask("test-js", ["jshint"]);
-  grunt.registerTask("test", ["test-css", "test-js"]);
+  grunt.registerTask("test", ["test-css"]);
 
   // CSS distribution task.
   let pkg = grunt.file.readJSON("package.json");

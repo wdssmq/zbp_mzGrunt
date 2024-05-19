@@ -29,9 +29,14 @@
     "dist-css": "grunt dist-css",
     "dist-js": "grunt dist-js",
     "test-css": "grunt test-css",
-    "test-js": "grunt test-js"
+    "test-js": "grunt test-js",
+    "lint:config": "eslint '*.config.mjs' --fix",
+    "lint:all": "eslint '**/*.js' --ignore-pattern '**/.history' --ignore-pattern '**/node_modules' --fix"
   },
   "devDependencies": {
+    "@eslint/js": "^9.3.0",
+    "eslint": "9.x",
+    "globals": "^15.2.0",
     "grunt": "^1.6.1",
     "grunt-banner": "^0.6.0",
     "grunt-browser-sync": "^2.2.0",

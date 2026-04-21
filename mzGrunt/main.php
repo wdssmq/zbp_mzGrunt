@@ -115,6 +115,10 @@ function mzBuilPath($id)
   $vJson = file_get_contents(mzGrunt_Path("v-json"));
   $uJson = strtr($vJson, $_POST);
 
+  // .env 内容生成
+  $vEnv = file_get_contents(mzGrunt_Path("v-env"));
+  $uEnv = strtr($vEnv, $_POST);
+
   // CSS 处理文件
   if ($uCSS = GetVars("app_style", "POST")) {
     $arrCSS = explode(".", $uCSS);
@@ -129,7 +133,14 @@ function mzBuilPath($id)
 
   // 写入文件
   $uJson = mzReplaceUsrDir($uJson);
+  $uEnv = mzReplaceUsrDir($uEnv);
   file_put_contents($pgkFile, $uJson);
+  file_put_contents("{$gruntPath}.env", $uEnv);
+
+  // 删除样例文件
+  if (is_file("{$gruntPath}.env.sample")) {
+    FileUtil::unlinkFile("{$gruntPath}.env.sample");
+  }
 }
 
 // 路径配置项不为空时替换

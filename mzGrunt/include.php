@@ -56,6 +56,9 @@ function mzGrunt_Path($file, $t = 'path')
     case 'v-json':
       return $result . 'var/package.json';
       break;
+    case 'v-env':
+      return $result . 'var/.env.sample';
+      break;
     case 'console':
       return $result . 'var_cfg/console.txt';
       break;

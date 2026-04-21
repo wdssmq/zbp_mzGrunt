@@ -13,9 +13,6 @@
     "Grunt-For-Z-Blog"
   ],
   "id": "app_id",
-  "host": "zb_host",
-  "path": "zb_path",
-  "pathCFG": "cfg_path",
   "appStyle": "app_style",
   "less": "less/-less-",
   "sass": "sass/-sass-",

@@ -6,6 +6,34 @@
  */
 
 module.exports = function(grunt) {
+  function parseDotEnv(filePath) {
+    if (!grunt.file.exists(filePath)) {
+      return {};
+    }
+    let data = grunt.file.read(filePath);
+    let result = {};
+    data.split(/\r?\n/).forEach(function(line) {
+      let text = line.trim();
+      if (!text || text.indexOf("#") === 0) {
+        return;
+      }
+      let pos = text.indexOf("=");
+      if (pos < 1) {
+        return;
+      }
+      let key = text.slice(0, pos).trim();
+      let val = text.slice(pos + 1).trim();
+      result[key] = val;
+    });
+    return result;
+  }
+
+  const pkgData = grunt.file.readJSON("package.json");
+  const envData = parseDotEnv(".env");
+  pkgData.host = envData.ZB_HOST || pkgData.host;
+  pkgData.path = envData.ZB_PATH || pkgData.path;
+  pkgData.pathCFG = envData.ZB_PATHCFG || pkgData.pathCFG;
+
   require("load-grunt-parent-tasks")(grunt, {
     config: "package.json",
     pattern: "grunt-*",
@@ -14,7 +42,7 @@ module.exports = function(grunt) {
   });
 
   grunt.initConfig({
-    pkg: grunt.file.readJSON("package.json"),
+    pkg: pkgData,
     path: "<%= pkg.path %>/<%= pkg.id %>",
     banner:
       "/*!\n" +
@@ -223,7 +251,7 @@ module.exports = function(grunt) {
   grunt.registerTask("test", ["test-css"]);
 
   // CSS distribution task.
-  let pkg = grunt.file.readJSON("package.json");
+  let pkg = grunt.config.get("pkg");
   let cssType = "less";
   // console.log(pkg.sass);
   if (grunt.file.exists(pkg.sass)) {

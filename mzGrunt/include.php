@@ -6,21 +6,7 @@ function ActivePlugin_mzGrunt()
 {
   Add_Filter_Plugin('Filter_Plugin_Index_End', 'mzGrunt_Debug');
   Add_Filter_Plugin('Filter_Plugin_Zbp_BuildTemplate', 'mzGrunt_GenTpl');
-  // Add_Filter_Plugin('Filter_Plugin_Admin_Footer', 'mzGrunt_AdminFooter');
 }
-
-// 废弃 2023-09-13 ↓
-function mzGrunt_AdminFooter()
-{
-  global $zbp;
-  if (stripos($zbp->currenturl, "AppCentre") !== false) {
-    return;
-  }
-  // 废弃 2023-09-13 ↓
-  // echo mzGrunt_ReloadJS();
-  // 废弃 2023-09-13 ↑
-}
-// 废弃 2023-09-13 ↑
 
 function mzGrunt_Debug()
 {
@@ -45,58 +31,7 @@ function mzGrunt_GenTpl(&$templates)
   }
   $templates['header'] = str_replace('{$style}.css', '{$style}.css?x=' . time(), $templates['header']);
   $templates['footer'] = str_replace('script.min.js', 'script.js', $templates['footer']);
-  // 废弃 2023-09-13 ↓
-  // $liveReload = mzGrunt_ReloadJS();
-  // $templates['footer'] = str_replace('{$footer}', '{$footer}' . $liveReload, $templates['footer']);
-  // 废弃 2023-09-13 ↑
 }
-
-// 废弃 2023-09-13 ↓
-function mzGrunt_ReloadJS()
-{
-  global $zbp;
-  $reloadType = $zbp->Config('mzGrunt')->reloadType;
-  $script = "\n<!--↓livereload↓-->\n<script>console.log($(window).width());</script>\n";
-  switch ($reloadType) {
-    case '1':
-      $script .= '<script src="' . mzGrunt_Path("script/livereload.js", "host") . '"></script>';
-      break;
-    case '2':
-      $script .= '<script src="http://localhost:35729/livereload.js?snipver=1"></script>';
-      break;
-    default:
-      $script .= '<script src="' . mzGrunt_CheckLiveReload() . '"></script>';;
-      break;
-  }
-  return $script . "\n<!--↑livereload {$reloadType}↑-->\n";
-}
-// 废弃 2023-09-13 ↑
-
-// 废弃 2023-09-13 ↓
-function mzGrunt_CheckLiveReload($force = false)
-{
-  global $zbp;
-  $liveReload = $zbp->Config('mzGrunt')->liveReload;
-  $lstTime = $zbp->Config('mzGrunt')->lstTime;
-  $curTime = ceil(time() / 300);
-  if ($curTime == $lstTime && !$force) {
-    return $liveReload;
-  }
-  $liveReload = mzGrunt_Path("script/livereload.js", "host");
-  $urlList = array("http://127.0.0.1:3000/browser-sync/browser-sync-client.js?v=2.18.11", "http://127.0.0.1:35729/livereload.js?snipver=1");
-  foreach ($urlList as $url) {
-    if (mzGrunt_Network($url)) {
-      $liveReload = $url;
-      break;
-    }
-  }
-  $zbp->Config('mzGrunt')->liveReload = $liveReload;
-  $zbp->Config('mzGrunt')->lstTime = $curTime;
-  $zbp->SaveConfig('mzGrunt');
-  $zbp->BuildTemplate();
-  return $liveReload;
-}
-// 废弃 2023-09-13 ↑
 
 function mzGrunt_Network($url)
 {

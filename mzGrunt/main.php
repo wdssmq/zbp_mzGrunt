@@ -65,11 +65,6 @@ foreach ($allthemes as $theme) {
   $options .= mzGenOption($theme->id, $theme->name, $selected);
 }
 
-// ↓ 废弃 2023-09-13
-// // 强制检查 LiveReload
-// mzGrunt_CheckLiveReload(true);
-// ↑ 废弃 2023-09-13
-
 $reloadType = $zbp->Config('mzGrunt')->reloadType;
 if ("3" == $reloadType) {
   $liveReload = $zbp->Config('mzGrunt')->liveReload;
@@ -262,11 +257,6 @@ require $blogpath . 'zb_system/admin/admin_top.php';
             <td><?php zbpform::text("usersdir", $zbp->Config("mzGrunt")->usersdir, "90%"); ?></td>
             <td>站点如果在 Docker 内需要手动指定，否则留空；<?php echo $zbp->usersdir ?></td>
           </tr>
-          <!-- <tr>
-            <td><b>· livereload</b></td>
-            <td><?php echo zbpform::select('reloadType', array('1' => '网页内定时查询（仅针对 CSS）', '2' => '编辑器/构建工具通知更新', '3' => '自动检测'), $zbp->config("mzGrunt")->reloadType); ?><?php echo $liveReload; ?></td>
-            <td>推送调用端口 + 文件名 :35729/livereload.js</td>
-          </tr> -->
         </tbody>
 
       </table>
@@ -312,7 +302,6 @@ npm run test-css
     <h4>依赖安装</h4>
     <p>Git - Downloading Package：<a href="https://git-scm.com/download/win" title="Git - Downloading Package" target="_blank">https://git-scm.com/download/win</a></p>
     <p>Node.js：<a href="https://nodejs.org/zh-cn/" title="Node.js" target="_blank">https://nodejs.org/zh-cn/</a></p>
-    <!-- <p>Ruby：<a href="https://rubyinstaller.org/downloads/" title="Ruby" target="_blank">https://rubyinstaller.org/downloads/</a>（SASS需要,安装Ruby后运行<code>gem install sass</code>）</p> -->
     <h4>在 Git Bash 中运行如下命令（只需运行一次）：</h4>
     <p>
     <pre><?php echo strtr($console, $arrLog); ?></pre>

@@ -60,6 +60,8 @@ RSS 订阅：[https://feed.wdssmq.com](https://feed.wdssmq.com "沉冰浮水博�
 
 ### 更新日志
 
+2026-04-21：pkg 依赖版本更新；部分写在 pkg 的配置改为 .env 引入；
+
 2024-05-18：增加 PurgeCSS 支持，通过清理无用 CSS 以减小文件体积；
 
 2023-09-13：LiveReload 改用 BrowserSync，可以实现反代开发站点；

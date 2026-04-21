@@ -77,6 +77,9 @@ module.exports = function(grunt) {
 
     // 编译 sass
     "dart-sass": {
+      options: {
+        silenceDeprecations: ["legacy-js-api"],
+      },
       target: {
         // options: {
         //   sourceMap: true,

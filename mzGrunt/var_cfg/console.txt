@@ -1,12 +1,14 @@
-cd "pAth"
-cp -fv "fIle" "package.json"
-#—— 复制基础文件到主题目录
-
 npm install -g cnpm --registry=https://registry.npmmirror.com
 #—— 安装 cnpm（国内推荐）
 
 cnpm install -g grunt-cli
 #—— 安装 grunt
+
+#-------------------------------------------
+
+cd "pAth"
+cp -fv "fIle" "package.json"
+#—— 复制基础文件到主题目录
 
 cnpm install
 #—— 安装依赖包
